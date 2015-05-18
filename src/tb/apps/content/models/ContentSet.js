@@ -22,6 +22,7 @@ define(
         'content.models.AbstractContent',
         'jquery',
         'content.manager',
+        'component!mask',
         'jsclass'
     ],
     function (AbstractContent, jQuery) {
@@ -52,7 +53,10 @@ define(
                 var self = this,
                     done = false,
                     dfd = jQuery.Deferred(),
-                    children = this.getNodeChildren();
+                    children = this.getNodeChildren(),
+                    mask = require('component!mask').createMask();
+
+                mask.mask(this.jQueryObject);
 
                 this.getData('parameters').done(function () {
 
@@ -85,8 +89,14 @@ define(
 
                         require('content.manager').computeImages();
 
+                        mask.unmask(self.jQueryObject);
+
                         dfd.resolve();
+                    }).fail(function () {
+                        mask.unmask(self.jQueryObject);
                     });
+                }).fail(function () {
+                    mask.unmask(self.jQueryObject);
                 });
 
                 return dfd.promise();

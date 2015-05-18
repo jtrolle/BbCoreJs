@@ -79,10 +79,8 @@ define(
 
                         ContentManager.unSelectContent();
 
-                        if (content.jQueryObject.length === 0) {
-                            content.jQueryObject = currentTarget;
-                            content.populate();
-                        }
+                        content.jQueryObject = currentTarget;
+                        content.populate();
 
                         Core.Mediator.publish('on:classcontent:click', content, event);
 
