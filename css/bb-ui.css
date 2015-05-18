@@ -9886,7 +9886,7 @@ fieldset[disabled] #bb5-ui .btn-online.active {
   height: 107px;
 }
 #bb5-ui .bb5-box-picture img {
-  display: block;
+  display: bloc;
   max-height: 97px;
   width: 100%;
 }
@@ -10278,8 +10278,6 @@ fieldset[disabled] #bb5-ui .btn-online.active {
   border: 2px dashed #739900;
   opacity: 0.5;
   position: relative;
-  -webkit-transition: all ease 250ms;
-  transition: all ease 250ms;
 }
 .bb-dropzone h4 {
   margin-top: 0;
@@ -10317,36 +10315,6 @@ fieldset[disabled] #bb5-ui .btn-online.active {
 }
 .bb-dropzone:before.pull-right {
   margin-left: .3em;
-}
-.bb-dropzone.over {
-  background-color: rgba(153, 204, 0, 0.1);
-  opacity: 1;
-}
-.bb-dropzone.over:before {
-  -webkit-animation: dropzone-over 4s infinite;
-  animation: dropzone-over 4s infinite;
-}
-@-webkit-keyframes dropzone-over {
-  0%,
-  50%,
-  100% {
-    -webkit-transform: translateY(0px);
-  }
-  25% {
-    -webkit-transform: translateY(10px);
-  }
-}
-@keyframes dropzone-over {
-  0%,
-  50%,
-  100% {
-    transform: translateY(0px);
-    -webkit-transform: translateY(0px);
-  }
-  25% {
-    transform: translateY(10px);
-    -webkit-transform: translateY(10px);
-  }
 }
 .bb5-content-hover {
   -webkit-box-shadow: 0px 0px 1px 3px rgba(0, 0, 0, 0.2);

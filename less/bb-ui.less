@@ -2277,7 +2277,7 @@ Version: 2.10 Dec2014
     .bb5-box-picture {
 
         img {
-            display: bloc;
+            display: block;
             max-height: 97px;
             width: 100%;
         }
@@ -2662,9 +2662,39 @@ Version: 2.10 Dec2014
     padding:1em;
     height: 100px;
     border: 2px dashed darken(@brand-success,10%);
+    opacity: 0.5;
     position:relative;
+    .transition(all ease 250ms);
     &:before {
         content:"\f0ed"; text-align: center; font-size: @size!important; #bb5-ui .fa; position:absolute; top:50%; left:50%; width: @size; height: @size; margin: @size/-3 0 0 @size/-2;
+    }
+    &.over {
+        background-color: fade(@brand-success,10%);
+        opacity: 1;
+        &:before {
+            -webkit-animation: dropzone-over 4s infinite;
+                animation: dropzone-over 4s infinite;
+        }
+    }
+}
+@-webkit-keyframes dropzone-over {
+    0%, 50%, 100%{
+      -webkit-transform: translateY(0px);
+    }
+    25% {
+        -webkit-transform: translateY(10px);
+    }
+}
+
+@keyframes dropzone-over {
+    0%, 50%, 100%{
+        transform: translateY(0px);
+        -webkit-transform: translateY(0px);
+    }
+
+    25% {
+        transform: translateY(10px);
+        -webkit-transform: translateY(10px);
     }
 }
 
