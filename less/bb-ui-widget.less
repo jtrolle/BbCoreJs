@@ -1,0 +1,355 @@
+/*JQUERY UI*/
+/*widget*/
+
+.ui-widget {
+    background-color:#fff;
+    border:1px solid @bb-border-clr;
+    .ui-dialog-titlebar {
+        padding: .85em 1em;
+    }
+    .ui-draggable-handle {
+        cursor: move;
+    }
+    .box-sizing(content-box);
+}
+
+.ui-widget-header .ui-button:hover {
+    background-color:darken(@bb-border-clr, 10%);
+}
+
+
+.ui-widget-content {
+    .box-sizing(content-box);
+        .ui-dialog .dialog-title {
+        color:@brand-primary;
+    }
+}
+
+//dialog
+.ui-dialog {
+    overflow: hidden;
+    position: absolute;
+    border:2px solid @bb-border-clr;
+    padding: 0;
+    outline: 0;
+    z-index: @bb5-z-index+2;
+
+    .ui-dialog-title {
+        font-weight: 700;
+    }
+
+    .ui-dialog-buttonpane {
+        .clearfix();
+    }
+
+    .page-status {
+        background-color:@brand-primary;
+    }
+}
+
+.ui-resizable {
+    position: relative;
+}
+
+.ui-resizable-handle {
+    position: absolute;
+    font-size: 0.1px;
+    display: block;
+    -ms-touch-action: none;
+    touch-action: none;
+}
+
+.ui-resizable-disabled .ui-resizable-handle,
+.ui-resizable-autohide .ui-resizable-handle {
+    display: none;
+}
+
+.ui-resizable-n {
+    cursor: n-resize;
+    height: 7px;
+    width: 100%;
+    top: -5px;
+    left: 0;
+}
+
+.ui-resizable-s {
+    cursor: s-resize;
+    height: 7px;
+    width: 100%;
+    bottom: -5px;
+    left: 0;
+}
+
+.ui-resizable-e {
+    cursor: e-resize;
+    width: 7px;
+    right: -5px;
+    top: 0;
+    height: 100%;
+}
+
+.ui-resizable-w {
+    cursor: w-resize;
+    width: 7px;
+    left: -5px;
+    top: 0;
+    height: 100%;
+}
+
+.ui-resizable-se {
+    cursor: se-resize;
+    width: 12px;
+    height: 12px;
+    right: 1px;
+    bottom: 1px;
+    position:absolute!important;
+    overflow: hidden;
+    &:after {
+        content:"";
+        width:17px;
+        position: absolute;
+        top:50%;
+        border-top:1px solid @bb-border-clr;
+        box-shadow:0px 3px 0px darken(@bb-border-clr, 10%), 0px 6px 0px darken(@bb-border-clr, 10%);
+        .rotate(-45deg);
+    }
+}
+
+.ui-resizable-sw {
+    cursor: sw-resize;
+    width: 9px;
+    height: 9px;
+    left: -5px;
+    bottom: -5px;
+}
+.ui-resizable-nw {
+    cursor: nw-resize;
+    width: 9px;
+    height: 9px;
+    left: -5px;
+    top: -5px;
+}
+.ui-resizable-ne {
+    cursor: ne-resize;
+    width: 9px;
+    height: 9px;
+    right: -5px;
+    top: -5px;
+}
+
+.ui-widget-header {
+    border-bottom: 1px solid @bb-border-clr;
+    position:relative;
+    font-size:@bb-font-size-default;
+    text-transform: uppercase;
+    line-height:1.2em;
+    padding-top:5px;
+    padding-bottom:5px;
+
+    .fa {
+        margin-right:10px;
+    }
+
+    .ui-button {
+        position:absolute;
+        top:4px;
+        right:4px;
+        padding: 0;
+        background:@bb-border-clr;
+        border-radius:100%;
+        .ui-button-text {#bb5-ui .sr-only;}
+    }
+}
+
+.ui-widget-header .ui-button,
+.ui-widget-header .ui-datepicker-next,
+.ui-widget-header .ui-datepicker-prev {
+    width:26px;
+    height:26px;
+    text-align:center;
+
+    .ui-icon {
+       line-height:26px;
+    }
+}
+
+
+/*icon*/
+.ui-widget .ui-icon {
+    text-indent:0;
+    display:inline-block;
+    font-family:FontAwesome;
+    font-style:normal;
+    font-weight:400;
+    line-height:1;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    top:auto;
+    left:auto;
+    margin:auto;
+    position:static;
+}
+
+.ui-widget .ui-dialog-buttonpane .ui-button .ui-icon {
+    position: absolute;
+    left: 0.5em;
+    top: 0.3em;
+    font-size: 1.2em;
+}
+
+.ui-widget .ui-icon-closethick:before {
+    content:"\f00d";
+}
+
+.ui-widget .ui-icon-circle-triangle-w:before {
+    content:"\f104";
+}
+
+.ui-widget .ui-icon-circle-triangle-e:before {
+    content:"\f105";
+}
+
+/*dialog*/
+.ui-dialog {
+
+    display:none;
+    .ui-dialog-content {
+        padding:1em 1em 0.5em 1em;
+    }
+
+    .ui-dialog-buttonpane {
+        position:relative;
+        padding:8px 6px 5px 6px;
+        border-width:0;
+        margin:0;
+
+        &:before {
+            content:"";
+            display:block;
+            position:absolute;
+            top:0 ;
+            left:-2px;
+            right:-2px;
+            height:5px;
+            .make-border-shadow;
+        }
+    }
+
+    .ui-dialog-buttonpane button {
+        margin:0 4px;
+    }
+
+    .dialog-title {
+        font-weight:700;
+        font-size: 1.1em;
+    }
+
+    .nbr-visit {
+        font-weight:700;
+        font-size:1.4em;
+    }
+}
+
+/* dialog -> dialog-sm */
+.ui-dialog .ui-dialog-sm {
+    padding:0 5px;
+}
+
+/* dialog -> no title*/
+.ui-dialog-no-title .ui-dialog-titlebar {
+    display: none;
+}
+
+/* dialog -> status*/
+.ui-dialog .page-status {
+    font-size:13px;
+    color:#fff;
+    padding:6px 15px;
+    margin:0 -5px 0.5em -5px;
+}
+
+.ui-dialog .page-status .fa {
+    font-size:13px;
+    color:#fff;
+}
+
+/*dialog -> ui-dialog-pinned-to-banner*/
+.ui-dialog-pinned-to-banner {
+    margin-top: 2px;
+}
+
+/*dialog -> contribution-scheduling*/
+#contribution-scheduling .form-group {
+    margin-bottom:1.2em;
+    margin-top:0.2em;
+}
+
+/*datepicker*/
+.ui-datepicker {
+    min-width:16em;
+
+    .ui-widget-header {
+
+        .ui-datepicker-prev,
+        .ui-datepicker-next {
+            border-width:1px;
+            border-style:solid;
+            top:3px;
+            cursor:pointer;
+        }
+
+        .ui-datepicker-prev {
+            left:3px;
+        }
+
+        .ui-datepicker-next {
+            right:3px;
+        }
+    }
+}
+
+.ui-datepicker-calendar {
+    width:100%;
+    border-collapse:separate;
+    border-spacing:1px;
+
+    th,
+    td {
+        height:1.5em;
+        line-height:1.5em;
+    }
+}
+
+.ui-datepicker .ui-state-default {
+    border-color:#eee;
+}
+
+.ui-datepicker .ui-state-default:hover,
+.ui-datepicker .ui-state-hover {
+    text-decoration:none;
+}
+
+.ui-datepicker .ui-state-active,
+.ui-datepicker .ui-state-active:hover {
+    color:#fff;
+}
+
+/*dialog-theme-background*/
+#dialog-theme-background {
+    padding: 2px;
+}
+
+.selection-toolbar {
+
+    select {
+        margin-left: 5px;
+    }
+}
+.row-draft {
+    margin: 3px 0;
+    padding:0;
+
+    p:nth-child(1) {
+        padding-left: 26px;
+    }
+}

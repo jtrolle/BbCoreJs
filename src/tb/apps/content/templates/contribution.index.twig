@@ -1,40 +1,45 @@
 <div class="row">
-    <div class="col-bb5-70 bb5-border-right">
+    <div class="col-bb5-80 bb5-border-right">
         <div class="row">
-            <div class="col-bb5-45">
-                <p>
-                    <select class="form-inline input-xs" name="[]" id="select-categories-blocks-contrib">
-                        <option value="">{{ 'block_categories'|trans }}</option>
-                        {% for category in categories %}
-                            {% if category.show %}
-                                <option value="{{ category.id }}">{{ category.name }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                </p>
-                <p>
-                    <button id="palette-contrib-blocks"type="button" class="btn btn-default-grey btn-xs">{{ 'block_display'|trans }}</button>
-                </p>
+            <div class="col-bb5-35">
+                <div class="form-group form-inline">
+                    <div class="select">
+                        <select class=" form-control input-sm" name="[]" id="select-categories-blocks-contrib">
+                            <option value="">{{ 'block_categories'|trans }}</option>
+                            {% for category in categories %}
+                                {% if category.show %}
+                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button id="palette-contrib-blocks"type="button" class="btn btn-default-grey btn-sm"><i class="fa fa-th"></i>
+{{ 'block_display'|trans }}</button>
+                </div>
             </div>
-            <div class="col-bb5-55">
-                <p>
-                    <strong>{{ 'pick_a_block'|trans }}</strong>
-                </p>
-                <div>
-                    <div id="carousel-blocks-choice" class="carousel slide bb5-ui-carousel" data-ride="carousel" data-interval="false">
-                        <div class="carousel-inner" id="carousel-contrib-blocks"></div>
-                        <a class="left carousel-control" href="#carousel-blocks-choice" data-slide="prev">
-                            <i class="fa fa-angle-left"></i>
-                        </a>
-                        <a class="right carousel-control" href="#carousel-blocks-choice" data-slide="next">
-                            <i class="fa fa-angle-right"></i>
-                        </a>
+            <div class="col-bb5-65">
+                <div class="block-picker">
+                    <p class="block-picker-ttl">
+                        {{ 'pick_a_block'|trans }}
+                    </p>
+                    <div>
+                        <div id="carousel-blocks-choice" class="carousel slide bb5-ui-carousel" data-ride="carousel" data-interval="false">
+                            <div class="carousel-inner" id="carousel-contrib-blocks"></div>
+                            <a class="left carousel-control" href="#carousel-blocks-choice" data-slide="prev">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a class="right carousel-control" href="#carousel-blocks-choice" data-slide="next">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-bb5-30">
+    <div class="col-bb5-20">
         <p>
             <button type="button" class="btn btn-default-grey btn-sm btn-block global-save">
                 <i class="fa fa-file-text"></i> {{ 'save_as_draft'|trans }}

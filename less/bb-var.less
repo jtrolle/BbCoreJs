@@ -10,13 +10,13 @@
 
 @brand-primary:         #e34c26;
 @brand-success:         #99cc00;
-@font-size-base:        11px;
 @grid-gutter-width:     16px;
 @navbar-inverse-bg:     #333;
 
-//Var
-@bb5-ui-bg:             #f9f9f9;
-@bb5-txt-clr:           #333;
+//VAR
+@bb5-ui-height:         97px;
+@bb5-ui-bg:             #fff;
+@bb5-txt-clr:           #363636;
 @bb5-z-index:           490000;
 @bb5-clr-offline:       mix(@brand-primary, #fff, 75%);
 @bb5-clr-offline-txt:   #333;
@@ -24,8 +24,27 @@
 @bb5-clr-online-txt:    #333;
 @bb-toolbar-bg:         #f3f3f3;
 @bb-toolbar-border:     #CDCDCD;
-@bb-border-clr:         #E0E0E0;
+@bb-border-clr:         #E4E4E4;
+@bb-font-size-default:  13px;
+@bb-font-size-small:    11px;
 
+//TOOLBAR NAV PRIMARY
+@bb-toolbar-h:                  150px;
+@bb-nav-prim-h:                 34px;
+@bb-nav-prim-border-clr:        #e5e9f4;
+//  -> btn
+@bb-nav-prim-btn-hover-clr:     @brand-primary;
+@bb-nav-prim-btn-hover-bg:      transparent;
+@bb-nav-prim-btn-active-clr:    #fff;
+@bb-nav-prim-btn-active-bg:     @brand-primary;
+@bb-nav-prim-btn-active-clr:    #fff;
+@bb-nav-prim-btn-active-bg:     @brand-primary;
+// -> form
+@input-bg:                      #f2f2f2;
+@input-border:                  @input-bg;
+
+//BUTTON
+@bb-btn-default-grey:           #e4e4e4;
 
 //Var
 @shadow : inset 0 1px 1px rgba(0,0,0,0.075),0 0 4px rgba(red(@brand-primary), green(@brand-primary), blue(@brand-primary),0.6);
@@ -78,23 +97,13 @@
         background-color:@bb5-ui-bg;
     }
 
-    /*RESET UI ELTS - prevent front styles */
-    & *,
-    .bb5-ui-reset {
-        font-family:Arial, Helvetica, sans-serif;
-        font-size:11px;
-        color:@bb5-txt-clr;
-        background:none;
-        width:auto;
-        height:auto;
-    }
-
     //
     .position-bottom,
     .bb5-ui-banner p.position-bottom {
         margin:floor((@grid-gutter-width / 2));
     }
 
+    // Helpers
     .txt-lighten {
         color:lighten(@bb5-txt-clr,38);
     }
@@ -107,72 +116,6 @@
         color:@bb5-txt-clr!important;
     }
 
-    // BTN
-    .btn {
-        .transition-duration(250ms);
-        .transition-timing-function(ease);
-        .transition-property(background border);
-    }
-
-    .bb5-logout {
-        color:@btn-default-color;
-    }
-
-    .bb5-logout:hover {
-        color:@brand-primary;
-    }
-
-    .bb5-logout:active {
-        color:darken(@brand-primary,10);
-    }
-
-    .btn-simple {
-        .box-shadow(none);
-    }
-
-    .btn-transparent {
-        .box-shadow(none);
-    }
-
-    .btn-transparent:hover,
-    .btn-transparent:focus,
-    .btn-transparent:active,
-    .btn-transparent.active,
-    .open .dropdown-toggle .btn-transparent {
-        color:@brand-primary;
-    }
-
-    .btn-transparent:hover .fa,
-    .btn-transparent:focus .fa,
-    .btn-transparent:active .fa,
-    .btn-transparent.active .fa,
-    .open .dropdown-toggle .btn-transparent .fa {
-        color:@brand-primary;
-    }
-
-    .btn-toggle .fa {
-        .border-radius(3px);
-    }
-
-    .bb5-blocks-choice-x {
-        .border-radius(6px);
-    }
-
-    .btn-group .btn.active {
-        background-color:@brand-primary;
-        color:#fff;
-        text-shadow:none;
-    }
-
-    .btn-help {
-        .border-radius(2px);
-    }
-
-    .btn-help:hover {
-        background-color:@brand-primary;
-        border-color:@brand-primary;
-        color: #fff;
-    }
     /**/
     .bb5-upload-ico .bb5-figure .fa {
         .transition(all 250ms ease);
@@ -183,13 +126,6 @@
     }
 
     //FORM
-    .bb5-form-wrapper {
-        background-color:@bb5-ui-bg;
-        .border-radius(4px);
-        margin-bottom:@grid-gutter-width;
-        padding-left:floor((@grid-gutter-width / 2));
-        padding-right:floor((@grid-gutter-width / 2));
-    }
 
     .form-control:focus {
         border-color:@brand-primary;
@@ -235,11 +171,6 @@
         .border-radius(0);
     }
 
-    .bb5-ui-banner .tab-pane {
-        .border-radius(4px);
-        padding-left:floor((@grid-gutter-width / 2));
-        padding-right:floor((@grid-gutter-width / 2));
-    }
     // 		TABS ->	bb5-navbar-primary
 
     #bb5-maintabs.nav-tabs>li>a:hover{
@@ -260,20 +191,6 @@
     #bb5-maintabs.nav-tabs .dropdown-menu>li>a:hover,
     #bb5-maintabs.nav-tabs .dropdown-menu>li>a:focus {
         color:@brand-primary;
-    }
-
-    // 		TABS ->	tabs-vertical
-    .tabs-vertical .nav-tabs > li > a {
-        .border-radiuses(8px, 0, 0, 8px);
-        color:@btn-default-color;
-    }
-
-    .tabs-vertical .nav-tabs > li.active > a {
-        color:@brand-primary;
-    }
-
-    .tabs-vertical .tab-content>.tab-pane {
-        .border-radiuses(0, 8px, 8px, 0);
     }
 
     //LIBRARY
@@ -319,33 +236,6 @@
     //CAROUSEL
     .bb5-ui-carousel .carousel-control .fa {
         color:@brand-primary;
-    }
-
-    //JQUERY
-    .ui-widget {
-        .border-radius(4px);
-    }
-
-    .ui-widget-header {
-        background-color:@navbar-inverse-bg;
-        .border-radiuses(4px, 4px, 0, 0);
-    }
-
-    .ui-widget-header .ui-button:hover {
-        background-color:lighten(@navbar-inverse-bg, 10%);
-    }
-
-    //dialog
-    .ui-dialog .ui-dialog-buttonpane {
-        .clearfix();
-    }
-
-    .ui-dialog .dialog-title {
-        color:@brand-primary;
-    }
-
-    .ui-dialog .page-status {
-        background-color:@brand-primary;
     }
 
     //datepicker
@@ -458,11 +348,11 @@
     }
 
     .bb5-list-data .bb5-list-data-item {
-        .clearfix();
+        &:extend(#bb5-ui .clearfix);
     }
 
     .bb5-list-users.bb5-list-display-list .bb5-list-users-item .bb5-manage-user {
-        .clearfix();
+        &:extend(#bb5-ui .clearfix);
     }
 
     /*GROUPS*/

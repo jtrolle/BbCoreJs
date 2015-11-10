@@ -2,8 +2,6 @@ define(['Core', 'contribution.view.index', 'jquery'], function (Core, IndexView,
 
     'use strict';
 
-    var trans = Core.get('trans') || function (value) {return value; };
-
     Core.ControllerManager.registerController('MainController', {
         appName: 'contribution',
         config: {
@@ -24,7 +22,6 @@ define(['Core', 'contribution.view.index', 'jquery'], function (Core, IndexView,
             var config = {},
                 view;
 
-            Core.ApplicationManager.invokeService('main.main.setTitlePane', trans('edition'));
             Core.Scope.register('contribution');
 
             if (this.viewIsLoaded !== true) {

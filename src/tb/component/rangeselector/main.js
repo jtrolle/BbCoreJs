@@ -3,7 +3,7 @@ define(['underscore', 'jquery', 'jsclass', 'BackBone'], function (underscore, jQ
     var RangeSelector = new JS.Class({
         defaultConfig: {
             range: [0, 50],
-            cls: 'max-per-page-selector input-xs',
+            cls: 'max-per-page-selector',
             optionCls: 'page',
             selected: 1,
             css: {}

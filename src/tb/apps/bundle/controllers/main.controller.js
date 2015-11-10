@@ -19,8 +19,6 @@
 define(['Core', 'bundle.view.list', 'bundle.view.index'], function (Core, ListView, IndexView) {
     'use strict';
 
-    var trans = Core.get('trans') || function (value) {return value; };
-
     Core.ControllerManager.registerController('MainController', {
 
         appName: 'bundle',
@@ -48,8 +46,6 @@ define(['Core', 'bundle.view.list', 'bundle.view.index'], function (Core, ListVi
          */
         indexAction: function () {
             var config = {};
-
-            Core.ApplicationManager.invokeService('main.main.setTitlePane', trans('plugins'));
 
             if (this.indexShown !== true) {
                 config.force = true;

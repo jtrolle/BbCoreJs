@@ -1,6 +1,6 @@
 <label for="{{ element.getKey() }}" class="label">{{ element.getLabel() }}</label>
 {% for key, item in element.getOptions() %}
-    <label class="checkbox{% if element.isInline() %}-inline{% endif %}">
+    <label class="control checkbox{% if element.isInline() %}-inline{% endif %}">
         <input type="checkbox"
                name="{{ element.getKey() }}"
                {% if element.isDisabled() %}disabled{% endif %}
@@ -8,6 +8,7 @@
                {% if key in element.getValue() %}checked{% endif %}
                style="margin-top:0px;";
                >
+        <span class="control-indicator"></span>
         {{ item }}
     </label>
 {% endfor %}

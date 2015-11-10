@@ -302,7 +302,7 @@ define(
                         user.populate(user_values);
                         Core.set('current_user', user);
 
-                        view = new View({el: jQuery('#bb5-navbar-secondary > div'), user: user_values});
+                        view = new View({el: jQuery('#bb5-navbar-primary .pull-right'), user: user_values});
                         view.render();
                     },
                     function () {

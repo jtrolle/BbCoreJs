@@ -190,8 +190,8 @@ define(
 
                         jQuery(self.schedulingTag).dialog({
                             position: { my: "left top", at: "left+270 bottom+2", of: jQuery("#bb5-maintabsContent") },
-                            width: 334,
-                            height: 120,
+                            width: 380,
+                            height: 'auto',
                             autoOpen: false,
                             resizable: false,
                             appendTo: self.mainSelector + " .bb5-dialog-container",

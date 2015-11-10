@@ -2,13 +2,13 @@
 <div class="row form-group">
     <div class="col-bb5-50">{{ element.getLabel() }}</div>
     <div class="col-bb5-50">
-        <div class="input-group input-group-xs">
+        <div class="input-group input-group-sm">
             <input type="text"
                 name="{{ element.getKey() }}"
                 id="{{ element.getKey() }}"
                 {% if element.isDisabled() %}disabled{% endif %}
                 value="{{ element.getValue() }}"
-                class="form-control input-xs bb5-datepicker"
+                class="form-control bb5-datepicker"
              >
             <span class="input-group-btn" id="btn-{{ element.getKey() }}">
                 <button type="button" class="btn btn-default-grey">

@@ -15,15 +15,17 @@
     <p class="pull-right">
         <button type="button" class="btn btn-primary btn-sm bb5-sortasgrid fa fa-th-large"></button>
         <button type="button" class="btn btn-simple btn-sm bb5-sortaslist fa fa-list-ul"></button>
-        <select class="max-per-page-selector input-xs">
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="30">30</option>
-            <option value="50">50</option>
-            <option value="80">80</option>
-            <option value="100">100</option>
-        </select>
+        <span class="select">
+            <select class="max-per-page-selector">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="50">50</option>
+                <option value="80">80</option>
+                <option value="100">100</option>
+            </select>
+        </span>
     </p>
 </div>
 </div>

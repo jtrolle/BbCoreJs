@@ -28,18 +28,14 @@
     <div class="bb5-windowpane-main ui-layout-pane ui-layout-center">
       <div class="ui-layout-north">
         <div class="bb5-form-wrapper search-engine-ctn"></div><!--/.form-wrapper-->
-        <div class="row">
-          <div class="col-bb5-100">
-            <p class="bb5-widget-toolbar result-infos"></p>
-            <div class="bb5-widget-toolbar list-options clearfix">
-              <ul class="pagination content-selection-pagination clearfix"></ul>
-              <p class="pull-right">
-                <button type="button" data-viewmode="grid" class="btn viewmode-btn btn-simple btn-sm bb5-sortasgrid fa fa-th-large"></button>
-                <button type="button" data-viewmode="list" class="btn viewmode-btn btn-simple btn-sm bb5-sortaslist fa fa-list-ul"></button>
-                <select class="max-per-page-selector input-xs"></select>
-              </p>
-            </div>
-          </div>
+        <div class="bb5-widget-toolbar list-options clearfix">
+          <p class="bb5-widget-toolbar result-infos"></p>
+          <ul class="pagination content-selection-pagination clearfix"></ul>
+          <p class="pull-right">
+            <button type="button" data-viewmode="grid" class="btn viewmode-btn btn-default-grey btn-ico bb5-sortasgrid fa fa-th-large"></button>
+            <button type="button" data-viewmode="list" class="btn viewmode-btn btn-default-grey btn-ico bb5-sortaslist fa fa-list-ul"></button>
+            <span class="select"><select class="max-per-page-selector"></select></span>
+          </p>
         </div>
       </div><!--/.ui-layout-north-->
 

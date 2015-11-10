@@ -45,7 +45,7 @@ define(
                 });
 
                 this.popin.setTitle(translator.translate('page_status'));
-                this.popin.addOption('width', 140);
+                this.popin.addOption('width', 170);
             },
 
             /**

@@ -1,0 +1,245 @@
+.btn {
+    text-align:left;
+    padding-left:10px;
+    padding-right:10px;
+    &:focus {outline-width: 0;}
+
+    .transition-duration(250ms);
+    .transition-timing-function(ease);
+    .transition-property(background border);
+
+    .fa {
+        font-size:1em;
+        margin-right:4px;
+    }
+    &, &:focus, &:active {
+        .box-shadow(none);
+    }
+
+}
+
+button, .btn {
+    &:focus {
+        outline: none;
+    }
+}
+
+.btn-block {
+    padding-right:4px;
+}
+
+.btn-sm {
+    font-size:11px;
+    padding:3px 6px 4px 6px;
+}
+
+.btn-xs {
+    font-size:11px;
+}
+
+
+
+/* -> btn-default*/
+.btn-default,
+.btn-default-grey {
+    border:1px solid #CDCDCD;
+}
+
+.btn-default-grey {
+    background-color:@bb-btn-default-grey;
+    border-color:@bb-btn-default-grey;
+    color: @bb5-txt-clr;
+    text-transform: uppercase;
+
+    &:hover,
+    &:active,
+    &.active,
+    .open .dropdown-toggle#bb5-ui & {
+        background-color:darken(@brand-primary, 10%);
+        border-color:darken(@brand-primary, 10%);
+        .box-shadow(none);
+        &, .fa {
+            color:#fff;
+        }
+    }
+}
+/* -> btn-simple*/
+.btn-simple {
+    &:extend(#bb5-ui .btn-transparent all);
+}
+
+/* -> .btn-transparent*/
+.btn-transparent {
+    background:none;
+    border-color:transparent;
+    padding:0;
+    border-width:0;
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.active,
+    .open .dropdown-toggle & {
+        color:@brand-primary;
+        .fa {
+            color:@brand-primary;
+        }
+    }
+}
+
+.btn-help {
+    .border-radius(2px);
+    border: 1px solid #CDCDCD;
+    background: #fff;
+    width: 17px;
+    height: 17px;
+    line-height: 17px;
+    text-align: center;
+    font-style: normal;
+    cursor: pointer;
+    &:after {
+        content: "?";
+    }
+    &:hover {
+        background-color:@brand-primary;
+        border-color:@brand-primary;
+        color: #fff;
+    }
+    [class*="col-bb5-"] label+& {
+        margin-right: -10px;
+    }
+}
+
+.btn-layout {
+    position: relative;
+    padding-left: 62px;
+    min-height: 53px;
+    display: block;
+    text-align: left;
+
+    span.layout-badge {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding:5px;
+    }
+}
+
+    .bb5-logout {
+        color:@btn-default-color;
+        &:hover {
+            color:@brand-primary;
+        }
+        &:active {
+           color:darken(@brand-primary,10);
+        }
+    }
+
+    .bb5-blocks-choice-x {
+        .border-radius(6px);
+    }
+
+    .btn-group .btn.active {
+        background-color:@brand-primary;
+        color:#fff;
+        text-shadow:none;
+    }
+
+
+
+/*btn-clr*/
+.btn-offline {
+    .button-variant(@bb5-clr-offline-txt; @bb5-clr-offline; darken(@bb5-clr-offline, 7%));
+}
+
+.btn-online {
+    .button-variant(@bb5-clr-online-txt; @bb5-clr-online; darken(@bb5-clr-online, 7%));
+}
+
+
+.open .dropdown-toggle#bb5-ui .btn-simple {
+    &:extend(#bb5-ui .btn-simple all);
+}
+
+
+.dropdown .list-lang {
+    padding-left: 20px;
+    padding-right: 20px;
+    a {
+        display:inline-block;
+        padding-left: 8px;
+        padding-right: 8px;
+        +a { margin-left: 0.5em;}
+
+    }
+}
+
+
+
+.bb5-logout {
+    font-style:italic;
+}
+
+.bb5-ico-right .fa {
+    background-color:#fff;
+    border:1px solid #cdcdcd;
+    margin-left:5px;
+    width:17px;
+    height:17px;
+    line-height:15px;
+    text-align:center;
+}
+
+/* -> btn + ico */
+/*
+.btn.btn-ico {
+    width:27px;
+    height:27px;
+    font-size:13px;
+    padding:0;
+    &, .fa {
+        text-align:center;
+        line-height:25px;
+    }
+}
+*/
+.btn.btn-ico {
+    width:32px;
+    height:32px;
+    font-size:13px;
+    padding:0;
+    &, .fa {
+        text-align:center;
+        line-height:30px;
+    }
+}
+.btn-xs.btn-ico {
+    width:17px;
+    height:17px;
+    font-size:13px;
+    padding:0;
+    &, .fa {
+        text-align:center;
+        line-height:15px;
+    }
+}
+
+.btn-sm.btn-ico {
+    width:21px;
+    height:21px;
+    font-size:15px;
+    padding:0;
+    &, .fa {
+        text-align:center;
+        line-height:19px;
+    }
+}
+
+.btn-toggle .fa:before {
+    line-height:19px;
+}
+
+.btn-group .btn {
+    text-align:center;
+}

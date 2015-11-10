@@ -2,8 +2,7 @@
 {% set col2 = 'col-bb5-14' %}
 {% set col3 = 'col-bb5-14' %}
 {% set col4 = 'col-bb5-14' %}
-{% set col5 = 'col-bb5-6' %}
-{% set col6 = 'col-bb5-6' %}
+{% set col6 = 'col-bb5-12' %}
 {% set col7 = 'col-bb5-3' %}
 <div id="content-library" class="bb5-dialog" style="display: block; height:100%">
   <div id="content-library-pane-wrapper" class="bb5-windowpane-wrapper windowpane-treeview">
@@ -21,7 +20,7 @@
       </div>
 
       <div class="ui-layout-south">
-        <a id="bb-page-management-trash-view" href="#"><i class="fa fa-trash-o"></i> {{ 'trash'|trans }}</a>
+        <a id="bb-page-management-trash-view" href="#" class="btn btn-default-grey"><i class="fa fa-trash-o"></i> {{ 'trash'|trans }}</a>
       </div><!--/.ui-layout-south-west-->
     </div><!--/.ui-layout-west-->
 
@@ -30,7 +29,19 @@
         <div class="row">
           <div class="col-bb5-100">
             <div class="bb5-widget-toolbar list-options clearfix">
-              <div id="bb-page-management-pagination-view"></div>
+              <p class="selection-toolbar pull-left">
+                {{ 'apply_to_all_selected_pages'|trans }}
+                <span class="select">
+                  <select class="max-per-page-selector bb-page-manage-grouped-action">
+                    <option value="0">{{ 'choose_an_action'|trans }}</option>
+                    <option value="setOnlineGrouped">{{ 'set_online'|trans }}</option>
+                    <option value="setOfflineGrouped">{{ 'set_offline'|trans }}</option>
+                    <option value="removeGrouped">{{ 'remove'|trans }}</option>
+                    {#<option value="changeParentGrouped">{{ 'change_parent'|trans }}</option>#}
+                  </select>
+                </span>
+              </p>
+              <div id="bb-page-management-pagination-view pull-right"></div>
               <p id="bb-page-management-range-view" class="pull-right"></p>
             </div>
           </div>
@@ -39,7 +50,10 @@
         <div class="bb5-list-data-toolbar bb5-toolbar-order"><!--table header-->
           <div class="row">
             <p class="bb5-toolbar-order-col {{ col7 }}">
-              <input class="bb-page-manage-select-all" type="checkbox">
+              <span class="control checkbox checkbox-inline">
+                <span class="control-indicator"></span>
+                <input class="bb-page-manage-select-all" type="checkbox">
+              </span>
             </p>
             <p class="bb5-toolbar-order-col {{ col1 }}">
               <a href="#" data-sorter="title" data-direction="asc">{{ 'title'|trans }}</a>
@@ -66,14 +80,16 @@
 
       <div id="bb-windowpane-south" class="ui-layout-south">
         <p class="selection-toolbar">
-          <i class="fa fa-level-up fa-rotate-90"></i> {{ 'apply_to_all_selected_pages'|trans }}
-          <select class="max-per-page-selector input-xs bb-page-manage-grouped-action">
-            <option value="0">{{ 'choose_an_action'|trans }}</option>
-            <option value="setOnlineGrouped">{{ 'set_online'|trans }}</option>
-            <option value="setOfflineGrouped">{{ 'set_offline'|trans }}</option>
-            <option value="removeGrouped">{{ 'remove'|trans }}</option>
-            {#<option value="changeParentGrouped">{{ 'change_parent'|trans }}</option>#}
-          </select>
+          {{ 'apply_to_all_selected_pages'|trans }}
+          <span class="select">
+            <select class="max-per-page-selector bb-page-manage-grouped-action">
+              <option value="0">{{ 'choose_an_action'|trans }}</option>
+              <option value="setOnlineGrouped">{{ 'set_online'|trans }}</option>
+              <option value="setOfflineGrouped">{{ 'set_offline'|trans }}</option>
+              <option value="removeGrouped">{{ 'remove'|trans }}</option>
+              {#<option value="changeParentGrouped">{{ 'change_parent'|trans }}</option>#}
+            </select>
+          </span>
         </p>
       </div><!--/.ui-layout-center-south-->
     </div><!--/.ui-layout-center-->

@@ -131,7 +131,7 @@ define([
 
         initLayout: function (tpl) {
             this.layout = jQuery(tpl).find('#content-library-pane-wrapper').layout({
-                applyDefaultStyles: false,
+                applyDefaultStyles: true,
                 closable: false,
                 west__childOptions: {
                     center__paneSelector: '.inner-center',

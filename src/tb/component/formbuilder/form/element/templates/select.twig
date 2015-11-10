@@ -1,27 +1,32 @@
 <label for="{{ element.getKey() }}" class="label">{{ element.getLabel() }}</label>
-<select name="{{ element.getKey() }}"
-        {% if element.isDisabled() %}disabled{% endif %}
-        {% if element.isMultiple() %}multiple{% endif %}
-        class="form-control"
-        >
 
-    {% if isArray == true %}
-        {% for item in element.getOptions() %}
-            <option {% if loop.index0 in element.getValue() or loop.index0.toString() in element.getValue() %}selected{% endif %}
-             value="{{ loop.index0 }}">
-                {{ item }}
-            </option>
-        {% endfor %}
-    {% else %}
-        {% for key, item in element.getOptions() %}
-            <option {% if key in element.getValue() %}selected{% endif %}
-             value="{{ key }}">
-                {{ item }}
-            </option>
-        {% endfor %}
-    {% endif %}
+<span class="select select-block">
+    <select name="{{ element.getKey() }}"
+            {% if element.isDisabled() %}disabled{% endif %}
+            {% if element.isMultiple() %}multiple{% endif %}
+            class="form-control"
+            >
 
-</select>
+        {% if isArray == true %}
+            {% for item in element.getOptions() %}
+                <option {% if loop.index0 in element.getValue() or loop.index0.toString() in element.getValue() %}selected{% endif %}
+                 value="{{ loop.index0 }}">
+                    {{ item }}
+                </option>
+            {% endfor %}
+        {% else %}
+
+            {% for key, item in element.getOptions() %}
+                <option {% if key in element.getValue() %}selected{% endif %}
+                 value="{{ key }}">
+                    {{ item }}
+                </option>
+            {% endfor %}
+
+        {% endif %}
+
+    </select>
+<span/>
 
 <span class="hidden updated"></span>
 <span class="form_error help-block {% if element.getError() == null %}hidden{% endif %}">{{ element.getError() }}</span>

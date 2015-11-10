@@ -19,31 +19,36 @@
             </button>
         </p>
     </div>
-    <div class="col-bb5-54 col-bb5-pad-x2">
-        <p>{{ 'page_status'|trans }} :
-            <select id="page-state-select" class="form-inline input-xs" name="state" {% if page.is_root == true %}disabled{% endif %} >
-                {% for state in states %}
-                    <option {% if page.state_code == state.code %}selected{% endif %} value="{{ state.code }}">{{ state.label }}</option>
-                {% endfor %}
-            </select>
-        </p>
-        <p>
-            <label class="checkbox-inline">
-                <input {% if page.is_hidden == false %}checked{% endif %} id="page-visibility-input" type="checkbox" name="menu_visibility" /> {{ 'available_in_menus'|trans }}
+    <div class="col-bb5-52 col-bb5-pad-x2">
+        <div class="form-group form-inline">
+            {{ 'page_status'|trans }} :
+            <span class="select">
+                <select id="page-state-select" class="form-control input-xs" name="state" {% if page.is_root == true %}disabled{% endif %} >
+                    {% for state in states %}
+                        <option {% if page.state_code == state.code %}selected{% endif %} value="{{ state.code }}">{{ state.label }}</option>
+                    {% endfor %}
+                </select>
+            </span>
+        </div>
+        <div class="form-group">
+            <label class="control checkbox checkbox-inline">
+                <input {% if page.is_hidden == false %}checked{% endif %} id="page-visibility-input" type="checkbox" name="menu_visibility" />
+                <span class="control-indicator"></span> {{ 'available_in_menus'|trans }}
             </label>
-        </p>
+        </div>
+
         {% if page.is_root == true %}
             <p class="info-tip">{{ 'some_actions_are_not_allowed_for_root_page'|trans }}</p>
         {% endif %}
         <p class="position-bottom">
             {{ 'scheduling'|trans }} :
             <span id="contribution-scheduling-state">{{ 'no_one'|trans }}</span>
-            <button id="contribution-scheduling-btn" type="button" class="btn btn-transparent btn-xs btn-toggle btn-show" {% if page.is_root == true %}disabled{% endif %}>
+            <button id="contribution-scheduling-btn" type="button" class="btn btn-default-grey btn-sm btn-show" {% if page.is_root == true %}disabled{% endif %}>
                 <i class="fa fa-angle-down"></i> {{ 'publishing_archiving'|trans }}
             </button>
         </p>
     </div>
-    <div class="col-bb5-25">
+    <div class="col-bb5-27">
         <p>
             <button type="button" class="btn btn-default-grey btn-sm btn-block bundle-toolbar-global-validate">
                 <i class="fa fa-floppy-o"></i> {{ 'save_status'|trans }}

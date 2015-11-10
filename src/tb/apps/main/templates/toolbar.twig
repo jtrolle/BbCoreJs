@@ -1,9 +1,10 @@
 
-<nav id="bb5-navbar-primary" class="navbar navbar-inverse clearfix" role="navigation">
-    <ul class="nav nav-tabs bb5-ui-width-setter" id="bb5-maintabs">
+<nav id="bb5-navbar-primary" class="navbar clearfix" role="navigation">
+    <span class="navbar-brand"><img src="{{ logo }}" alt="BackBee"></span>
+    <ul class="nav bb5-ui-width-setter" id="bb5-maintabs">
         {% for menu in menus %}
             <li{% if menu.items %} class="dropdown"{% endif %}>
-                <a{% if menu.items %} class="dropdown-toggle"{% endif %} id="{{ menu.label }}-menu" href="{{ menu.url }}">
+                <a class="btn{% if menu.items %} dropdown-toggle{% endif %}" id="{{ menu.label }}-menu" href="{{ menu.url }}">
                     {{ menu.text }}
                 </a>
                 {% if menu.items %}
@@ -19,13 +20,6 @@
         {% endfor %}
     </ul>
     <ul class="nav navbar-nav pull-right"></ul>
-</nav>
-
-<nav id="bb5-navbar-secondary" class="navbar navbar-default">
-    <div class="navbar-header">
-        <span class="navbar-brand"><img src="{{ logo }}" alt="BackBee"></span>
-        <div class="bb5-ui-width-setter"><span id="toolbar-pane-name" class="bb5-ui-tab-title"></span></div>
-    </div>
 </nav>
 
 <div class="bb5-ui-width-setter bb5-ui-banner">
