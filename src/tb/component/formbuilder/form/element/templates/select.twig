@@ -4,12 +4,24 @@
         {% if element.isMultiple() %}multiple{% endif %}
         class="form-control"
         >
-    {% for key, item in element.getOptions() %}
-        <option {% if key in element.getValue() %}selected{% endif %}
-         value="{{ key }}">
-            {{ item }}
-        </option>
-    {% endfor %}
+
+    {% if isArray == true %}
+        {% for item in element.getOptions() %}
+            <option {% if loop.index0 in element.getValue() %}selected{% endif %}
+             value="{{ loop.index0 }}">
+                {{ item }}
+            </option>
+        {% endfor %}
+    {% else %}
+        {% for key, item in element.getOptions() %}
+            <option {% if key in element.getValue() %}selected{% endif %}
+             value="{{ key }}">
+                {{ item }}
+            </option>
+        {% endfor %}
+    {% endif %}
+
 </select>
+
 <span class="hidden updated"></span>
 <span class="form_error help-block {% if element.getError() == null %}hidden{% endif %}">{{ element.getError() }}</span>

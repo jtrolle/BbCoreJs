@@ -175,7 +175,7 @@ define(
                             onValidate: function (form, data) {
                                 var urlPattern = new RegExp(/^(https?:\/\/){1}([\da-z\.\-]+)\.([a-z\.]{2,6})([\/\w \.\-]*)*\/?$/);
 
-                                if (!data.hasOwnProperty('url') || data.url.trim().length === 0 || urlPattern.test(data.url)) {
+                                if (!data.hasOwnProperty('url') || jQuery.trim(data.url).length === 0 || !urlPattern.test(data.url)) {
                                     form.addError('url', Translator.translate('url_required'));
                                 }
                             }
@@ -183,7 +183,7 @@ define(
                     };
 
                 FormBuilder.renderForm(config).done(function (html) {
-                    jQuery(self.externalLinkSelector + ' ' + self.wrapperAreaSelector).html(html);
+                    self.widget.find(self.externalLinkSelector + ' ' + self.wrapperAreaSelector).html(html);
                 });
             },
 
@@ -256,9 +256,6 @@ define(
                     Selector.layout.sizePane("west", 201);
                 }, 0);
             },
-
-
-
 
             onReady: function () {
                 var bodyElement = this.widget.find(this.bodySelector),

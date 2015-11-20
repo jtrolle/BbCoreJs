@@ -74,7 +74,9 @@ define(['Core', 'Core/Renderer', 'BackBone', 'jquery'], function (Core, Renderer
          * @returns {String} html
          */
         render: function () {
-            return Renderer.render(this.template, {element: this.element});
+            var options = this.element.getOptions();
+
+            return Renderer.render(this.template, {'element': this.element, 'isArray': jQuery.isArray(options)});
         }
     });
 
