@@ -35,14 +35,20 @@ define(
                 this.conciseInfos = {};
                 this.identifierMap = {};
                 this.lastInstance = null;
+                this.externalPluginsPath = '';
                 this.editorContainer = '#content-contrib-tab .bb-cke-wrapper';
                 var lib = [],
                     self = this;
                 if (this.config.hasOwnProperty('libName')) {
                     lib.push(this.config.libName);
                 }
+
                 if (this.config.hasOwnProperty('editableConfig')) {
                     this.editableConfig = this.config.editableConfig;
+                }
+
+                if (this.config.hasOwnProperty("externalPluginsPath") && typeof this.config.externalPluginsPath === 'string') {
+                    this.externalPluginsPath = jQuery.trim(this.config.externalPluginsPath);
                 }
 
                 this.handleContentEvents();
@@ -51,6 +57,7 @@ define(
                     self.editor.disableAutoInline = true;
                     self.editor.dtd.$editable.span = 1;
                     self.editor.dtd.$editable.a = 1;
+                    self.handleExtraPlugins(self.editor);
                     /* extends CKEditor config with user config here*/
                     jQuery.extend(self.editor.config, self.config);
                     CKEDITOR.on('instanceReady', jQuery.proxy(self.handleInstance, self));
@@ -68,6 +75,15 @@ define(
             handleContentEvents : function () {
                 jQuery(document).on('click', jQuery.proxy(this.blurEditor, this));
             },
+
+            /**
+             * Telling cke where to look for extra plugins at the specified path
+             **/
+            handleExtraPlugins: function (editor) {
+                if (!this.externalPluginsPath.length) { return false; }
+                editor.plugins.basePath = this.externalPluginsPath;
+            },
+
 
             blurEditor: function (e) {
                 var isInEditorZone = jQuery(e.target).closest('.cke_top').length;

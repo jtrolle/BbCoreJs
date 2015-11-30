@@ -54,7 +54,8 @@ define(
             imageClass: 'Element/Image',
             defaultPicturePath: require.toUrl('html/img/filedrop.png'),
             contentSelectedClass: 'bb-content-selected',
-
+            TARGET_SELF: 'self',
+            TARGET_PARENT: 'parent',
 
             initialize: function () {
                 this.maskMng = require('component!mask').createMask({});
@@ -115,6 +116,26 @@ define(
                 }
 
                 return result;
+            },
+
+            getEventTargetRule: function (type) {
+                var targetRule = this.TARGET_SELF,
+                    rules = Core.config('contents_events:rules'),
+                    self = this,
+                    currentRule;
+
+                if (rules !== undefined) {
+                    jQuery.each(rules, function (i) {
+                        currentRule = rules[i];
+                        if (currentRule.hasOwnProperty('type') && type === currentRule.type) {
+                            targetRule = [self.TARGET_SELF, self.TARGET_PARENT].indexOf(currentRule.target) !== -1 ? currentRule.target : self.TARGET_SELF;
+                            return true;
+                        }
+
+                    });
+                }
+
+                return targetRule;
             },
 
             /**

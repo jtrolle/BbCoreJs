@@ -38,6 +38,7 @@ define(
         'component!mask',
         'text!ls-templates/layout.twig',
         'text!ls-templates/page-item.twig',
+        'moment',
         'component!siteselector',
         'jquery-layout',
         'jsclass'
@@ -54,7 +55,8 @@ define(
             FormBuilder,
             Mask,
             layoutTemplate,
-            pageItemTemplate
+            pageItemTemplate,
+            moment
             ) {
 
         'use strict';
@@ -361,6 +363,8 @@ define(
             },
 
             itemRenderer: function (mode, item) {
+                item.created = moment.unix(item.created).format('YYYY/MM/DD HH:mm');
+                item.modified = moment.unix(item.modified).format('YYYY/MM/DD HH:mm');
                 var self = this,
                     html = Renderer.render(pageItemTemplate, {'item': item, 'mode': mode}),
                     element = jQuery(html);

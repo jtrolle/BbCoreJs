@@ -35,7 +35,7 @@ define(
 
             TYPE: 'classcontent-draft',
 
-            limit: 3,
+            limit: 30,
 
             /**
              * Initialize of Page repository
