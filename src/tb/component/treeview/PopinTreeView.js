@@ -118,7 +118,7 @@ define(
                     }
                     this.initTree();
 
-                    this.options.open();
+                    this.options.open(this);
                     this.isLoaded = true;
                 },
 

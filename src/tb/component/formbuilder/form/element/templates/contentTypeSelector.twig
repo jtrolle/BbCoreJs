@@ -1,0 +1,20 @@
+<div class="contentType-wrapper">
+    <label class="label">{{ element.getLabel() }}</label>
+
+    <div class="bb5-listContainer">
+        <p>
+            <button type="button" class="btn btn-default-grey btn-sm add-contenttype"><i class="fa fa-plus"></i> {{ trans('add_a_contenttype') }}</button>
+        </p>
+    </div>
+
+    <ul class="list-unstyled item-container" style="margin-top:10px;">
+        {% for contentType in contentTypes %}
+            {{ contentType }}
+        {% endfor %}
+    </ul>
+
+    <input class="form-infos" type="hidden"
+           name="{{ element.getKey() }}"
+           class="form-control hidden"
+           />
+</div>
