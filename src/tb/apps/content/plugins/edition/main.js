@@ -50,7 +50,7 @@ define(
              * @returns {Boolean}
              */
             canApplyOnContext: function () {
-                return !this.getCurrentContent().isAContentSet();
+                return !this.getCurrentContent().isAContentSet() && this.getCurrentContent().hasElements();
             },
 
             /**
@@ -67,7 +67,7 @@ define(
                         label: Translator.translate('edit_content'),
                         cmd: self.createCommand(self.edit, self),
                         checkContext: function () {
-                            return true;
+                            return self.canApplyOnContext();
                         }
                     }
                 ];

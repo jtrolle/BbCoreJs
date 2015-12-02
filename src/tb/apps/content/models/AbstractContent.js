@@ -422,6 +422,14 @@ define(
             },
 
             /**
+             * Check if the Content has elements
+             * @returns {Boolean}
+             */
+            hasElements: function () {
+                return this.definition.has_elements;
+            },
+
+            /**
              * Return the html of content
              * @param {String} renderMode
              * @returns {Promise}
