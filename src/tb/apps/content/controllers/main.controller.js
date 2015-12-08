@@ -70,8 +70,7 @@ define(
                     getPluginManagerService: ['content.pluginmanager'],
                     saveService: ['component!popin', 'component!translator'],
                     cancelService: ['component!translator'],
-                    validateService: ['component!translator'],
-                    getRepositoryService: ['content.repository']
+                    validateService: ['component!translator']
                 }
             },
 

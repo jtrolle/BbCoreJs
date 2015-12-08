@@ -31,7 +31,11 @@ define(['jsclass'], function () {
                 previousValue = form.elements[key].value;
 
             if (value !== JSON.stringify(previousValue)) {
-                data = JSON.parse(value);
+                if (value) {
+                    data = JSON.parse(value);
+                } else {
+                    data = {};
+                }
             }
             return data;
         }

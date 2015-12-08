@@ -148,6 +148,8 @@ define(
                 this.ContentRepository.findData(object.type, object.uid).done(function (data) {
                     data.object_uid = object.uid;
                     dfd.resolve(data);
+                }).fail(function () {
+                    dfd.resolve(null);
                 });
 
                 return dfd.promise();
