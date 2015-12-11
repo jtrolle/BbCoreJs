@@ -6,7 +6,7 @@ require.config({
     paths: {
         'mediaFolder.datastore': 'src/tb/component/medialibrary/datastore/mediaFolder.datastore',
         'media.datastore': 'src/tb/component/medialibrary/datastore/media.datastore',
-        'mediaFolder.contextMenuHelper': 'src/tb/component/medialibrary/helpers/contextmenu.helper',
+        'mediaFolder.menusHelper': 'src/tb/component/medialibrary/helpers/menus.helper',
         'mediaItem.renderer': 'src/tb/component/medialibrary/helpers/mediaitemrenderer.helper'
     }
 });
@@ -26,7 +26,7 @@ define(
         'component!searchengine',
         'mediaFolder.datastore',
         'media.datastore',
-        'mediaFolder.contextMenuHelper',
+        'mediaFolder.menusHelper',
         'media.datastore',
         'component!mask',
         "jsclass",
@@ -186,6 +186,7 @@ define(
                     });
                     this.widgetLayout.resizeAll();
                     this.widgetLayout.sizePane("west", 235);
+                    jQuery(this.widget).find(".ui-layout-north").eq(0).css("zIndex", "auto");
                 },
 
                 fixDataviewLayout: function (top) {
@@ -204,8 +205,9 @@ define(
                     this.mediaFolderTreeView = this.createMediaFolderView();
                     this.mediaListView = this.createMediaListView();
                     this.maskMng = require('component!mask').createMask({});
-                    this.contextMenuHelper = require('mediaFolder.contextMenuHelper');
-                    this.contextMenuHelper.setMainWidget(this);
+                    this.menusHelper = require('mediaFolder.menusHelper');
+                    this.menusHelper.setMainWidget(this);
+
                     this.rangeSelector = this.createRangeSelector(this.config.rangeSelector);
                     this.searchEngine = this.createSearchEngine(this.config.searchEngine);
                     this.mediaDataStore.setLimit(this.rangeSelector.getValue());
@@ -375,6 +377,7 @@ define(
                         dataViewCtn = jQuery(this.widget).find(".data-list-ctn").eq(0),
                         paginationCtn = jQuery(this.widget).find('.content-selection-pagination').eq(0),
                         rangeSelectorCtn = jQuery(this.widget).find('.max-per-page-selector').eq(0),
+                        toolbarMenuCtn = jQuery(this.widget).find('.toolbar-menu-ctn').eq(0),
                         searchEnginerCtn = jQuery(this.widget).find(".search-engine-ctn").eq(0);
                     this.rangeSelector.render(rangeSelectorCtn, 'replaceWith');
                     this.treeContainer = jQuery(this.widget).find('.bb5-windowpane-tree').eq(0);
@@ -382,7 +385,9 @@ define(
                     this.mediaListView.render(dataViewCtn);
                     this.mediaFolderTreeView.render(catTreeCtn);
                     this.searchEngine.render(searchEnginerCtn);
+                    /* render toolbar menu */
                     this.loadMediaFolders();
+                    this.menusHelper.getToolbarMenu().render(toolbarMenuCtn);
                     this.bindEvents();
                     jQuery("#" + this.dialog.id).parent().find(".ui-dialog-buttonpane .ui-dialog-buttonset").addClass("pull-right");
                 },
@@ -426,6 +431,7 @@ define(
                     this.mediaDataStore.setLimit(this.rangeSelector.getValue());
                     this.mediaDataStore.applyFilter("byMediaFolder", e.node.uid).execute();
                     this.mediaFolderTreeView.invoke("selectNode", e.node);
+                    this.menusHelper.setSelectedNode(e.node);
                 },
 
                 formatData: function (data) {
@@ -469,11 +475,16 @@ define(
                 },
 
                 handleContextMenu: function (e) {
-                    this.contextMenuHelper.setSelectedNode(e.node);
+                    this.menusHelper.setSelectedNode(e.node);
                     this.selectedNode = e.node;
                     this.mediaFolderTreeView.invoke("selectNode", e.node);
-                    this.contextMenuHelper.getContextMenu().show(e.click_event);
+                    this.menusHelper.getContextMenu().show(e.click_event);
                 },
+
+                handleNodeClick: function (e) {
+                    this.menusHelper.setSelectedNode(e.node);
+                },
+
 
                 handleNodeEdition: function (onEditCallBack, node, title, parentNode) {
                     var self = this,
@@ -529,6 +540,9 @@ define(
                     this.mediaFolderTreeView.on("dblclick", jQuery.proxy(this.handleMediaSelection, this));
                     this.mediaFolderTreeView.on("open", jQuery.proxy(this.onNodeTreeOpen, this));
                     this.mediaFolderTreeView.on("contextmenu", jQuery.proxy(this.handleContextMenu, this));
+
+                    this.mediaFolderTreeView.on("click", jQuery.proxy(this.handleNodeClick, this));
+
                     this.mediaFolderTreeView.nodeEditor.on("editNode", jQuery.proxy(this.handleNodeEdition, this));
                     jQuery(this.widget).find(".viewmode-btn").on("click", jQuery.proxy(this.handleViewModeChange, this));
                     this.rangeSelector.on("pageRangeSelectorChange", function (val) {

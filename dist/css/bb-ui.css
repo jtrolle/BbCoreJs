@@ -9451,6 +9451,19 @@ fieldset[disabled] #bb5-ui .btn-online.active {
   font-size: 1.181em;
   font-weight: bold;
 }
+#bb5-ui .affix-toolbar-top-dialog {
+  position: relative;
+}
+#bb5-ui .affix-toolbar-top-dialog .affix-toolbar-top {
+  padding-top: 20px;
+}
+#bb5-ui .affix-toolbar-top-dialog .affix-toolbar-top .toolbar-top {
+  background-color: #fff;
+  position: absolute;
+  top: 35px;
+  right: 25px;
+  height: 20px;
+}
 #bb5-ui .pagination {
   display: block;
   text-align: center;

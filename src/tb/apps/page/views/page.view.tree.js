@@ -24,7 +24,8 @@ define(
         'component!treeview',
         'component!mask',
         'component!translator',
-        'component!siteselector'
+        'component!siteselector',
+        'component!menu'
     ],
 
     function (Core, jQuery, PageRepository, Tree, Mask, Translator) {
@@ -163,7 +164,7 @@ define(
                             }
                             return true;
                         },
-
+                        onCreatePopInMenu: this.handlePopInMenu.bind(this),
                         onCreate: function () {
                             if (self.hasSiteSelector()) {
                                 self.handleSiteSelector(this.widget);
@@ -183,6 +184,14 @@ define(
                 }
 
                 this.bindDefaultEvents();
+            },
+
+            handlePopInMenu: function (popIn) {
+                this.toolbarMenu = require('component!menu').create({"cssClass": "contents-action pull-right"});
+                var ctn = popIn.getActionsZone(),
+                    menuWidget = this.toolbarMenu.render();
+
+                ctn.append(menuWidget);
             },
 
             handleSectionFilter: function (e) {
@@ -254,7 +263,6 @@ define(
             * @param {Object} event
             */
             onClick: function (event) {
-
                 var self = this,
                     parent = event.node.parent;
                 /* do nothing with ellipsis node */

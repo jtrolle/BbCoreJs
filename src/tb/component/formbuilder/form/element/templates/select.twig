@@ -7,7 +7,7 @@
 
     {% if isArray == true %}
         {% for item in element.getOptions() %}
-            <option {% if loop.index0 in element.getValue() %}selected{% endif %}
+            <option {% if loop.index0 in element.getValue() or loop.index0.toString() in element.getValue() %}selected{% endif %}
              value="{{ loop.index0 }}">
                 {{ item }}
             </option>

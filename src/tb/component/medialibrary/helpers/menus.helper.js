@@ -1,14 +1,44 @@
-define(['component!contextmenu', 'jquery', 'component!notify'], function (ContextMenu, jQuery, notify) {
+define(['component!contextmenu', 'component!menu', 'jquery', 'component!notify'], function (ContextMenu, MenuComponent, jQuery, notify) {
     'use strict';
     var treeView = null,
         contextMenu = null,
+        toolbarMenu = null,
         selectedNode = null,
         mainWidget = null,
         mediaFolderStore = null,
         cuttedNode = null,
         trans = require('Core').get('trans') || function (value) { return value; },
+
+
+        handleFilters = function () {
+            var filters = [];
+            if (selectedNode.children.length > 0 && !treeView.isNodeOpened(selectedNode) && !selectedNode.isLoaded) {
+                filters.push("bb5-context-menu-add");
+            }
+            if (!cuttedNode || (cuttedNode.uid === selectedNode.uid)) {
+                filters.push("bb5-context-menu-paste");
+                filters.push("bb5-context-menu-paste-before");
+                filters.push("bb5-context-menu-paste-after");
+            }
+            if (cuttedNode && cuttedNode.uid === selectedNode.uid) {
+                filters.push("bb5-context-menu-cut");
+            }
+            if (treeView.isRoot(selectedNode)) {
+                filters.push("bb5-context-menu-cut");
+                filters.push("bb5-context-menu-remove");
+                filters.push("bb5-context-menu-paste-before");
+                filters.push("bb5-context-menu-paste-after");
+            }
+            if (cuttedNode && cuttedNode.parent.uid === selectedNode.uid) {
+                filters.push("bb5-context-menu-paste");
+            }
+            return filters;
+        },
+
         buildContextMenu = function () {
+
             var mediaFolderContextMenu = new ContextMenu({domTag: "#bb5-ui"}),
+
                 actions = {
                     createAction: function () {
                         treeView.createNode();
@@ -93,36 +123,22 @@ define(['component!contextmenu', 'jquery', 'component!notify'], function (Contex
                     if (jQuery.isArray(mediaList)) {
                         jQuery.each(mediaList, function (i) {
                             item = mediaList[i];
+
+                            /* context Menu */
                             contextMenu.addMenuItem({
                                 btnCls: "bb5-contextmenu-" + nomalizeMediaType(item.type),
                                 btnLabel: trans("create_a_new_media") + " " + item.title,
                                 btnCallback: jQuery.proxy(actions.showMediaFormAction, this, item.type)
                             });
+
+                            /* main menu */
                         });
                     }
                 };
-            mediaFolderContextMenu.beforeShow = function () {
 
-                if (selectedNode.children.length > 0 && !treeView.isNodeOpened(selectedNode) && !selectedNode.isLoaded) {
-                    this.addFilter("bb5-context-menu-add");
-                }
-                if (!cuttedNode || (cuttedNode.uid === selectedNode.uid)) {
-                    this.addFilter("bb5-context-menu-paste");
-                    this.addFilter("bb5-context-menu-paste-before");
-                    this.addFilter("bb5-context-menu-paste-after");
-                }
-                if (cuttedNode && cuttedNode.uid === selectedNode.uid) {
-                    this.addFilter("bb5-context-menu-cut");
-                }
-                if (treeView.isRoot(selectedNode)) {
-                    this.addFilter("bb5-context-menu-cut");
-                    this.addFilter("bb5-context-menu-remove");
-                    this.addFilter("bb5-context-menu-paste-before");
-                    this.addFilter("bb5-context-menu-paste-after");
-                }
-                if (cuttedNode && cuttedNode.parent.uid === selectedNode.uid) {
-                    this.addFilter("bb5-context-menu-paste");
-                }
+            mediaFolderContextMenu.beforeShow = function () {
+                var filters = handleFilters();
+                this.setFilters(filters);
             };
 
             mediaFolderContextMenu.addMenuItem({
@@ -170,7 +186,36 @@ define(['component!contextmenu', 'jquery', 'component!notify'], function (Contex
             buildMediaItems(mediaFolderContextMenu, mainWidget.getAvailableMedia());
             mediaFolderContextMenu.enable();
             return mediaFolderContextMenu;
+        },
+
+
+        updateToolbarMenu = function () {
+            var filters = handleFilters();
+            toolbarMenu.disableButtons(filters);
+        },
+
+        buildToolbarMenu = function () {
+            toolbarMenu = MenuComponent.create({});
+
+            var menuItem,
+                ctxMenu = buildContextMenu();
+
+            jQuery.each(ctxMenu.settings.menuActions, function (i) {
+                menuItem = ctxMenu.settings.menuActions[i];
+                toolbarMenu.addButton(menuItem.btnCls, menuItem.btnLabel, menuItem.btnCallback);
+            });
+
+                /* handle before show Event */
+            toolbarMenu.on("beforeShow", function () {
+                var currentSelectedNode = treeView.getSelectedNode();
+                if (!currentSelectedNode) {
+                    toolbarMenu.hideAll();
+                }
+            });
+
+            return toolbarMenu;
         };
+
     return {
         setMainWidget: function (widget) {
             treeView = widget.mediaFolderTreeView;
@@ -180,6 +225,14 @@ define(['component!contextmenu', 'jquery', 'component!notify'], function (Contex
 
         setSelectedNode: function (node) {
             selectedNode = node;
+            updateToolbarMenu();
+        },
+
+        getToolbarMenu: function () {
+            if (!toolbarMenu) {
+                toolbarMenu = buildToolbarMenu();
+            }
+            return toolbarMenu;
         },
 
         getContextMenu: function () {

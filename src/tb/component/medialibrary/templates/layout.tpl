@@ -2,7 +2,10 @@
     <div class="bb5-windowpane-tree ui-layout-pane ui-layout-west">
         <div class="ui-layout-north">
             <p><strong data-i18n="toolbar.selector.select_folder">{{ "select_a_mediafolder" | trans }}</strong></p>
+            <div class="container-fluid"><div class="navbar-right toolbar-menu-ctn"></div></div>
         </div>
+
+
 
 <div class="inner-center layout-overflow-scroll">
   <div class="bb5-windowpane-tree-inner">

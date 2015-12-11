@@ -100,7 +100,7 @@ define(
                 checkParameters: function () {
                     this.options.open = (typeof this.options.open === "function") ? jQuery.proxy(this.options.open, this) : jQuery.noop;
                     this.options.create = (typeof this.options.create === "function") ? jQuery.proxy(this.options.create, this) : jQuery.noop;
-
+                    this.options.onCreatePopInMenu = (typeof this.options.onCreatePopInMenu === "function") ? this.options.onCreatePopInMenu.bind(this) : jQuery.noop;
                     if (!this.options.hasOwnProperty("data") || !Array.isArray(this.options.data)) {
                         this.options.data = [];
                     }
@@ -111,6 +111,10 @@ define(
                     this.treeView = TreeViewMng.createTreeView(treeWrapper, this.options);
                 },
 
+                getActionsZone: function () {
+                    return this.popinTemplate.find('.toolbar-top').eq(0);
+                },
+
                 initOnOpen: function () {
 
                     if (this.isLoaded) {
@@ -119,6 +123,7 @@ define(
                     this.initTree();
 
                     this.options.open(this);
+                    this.options.onCreatePopInMenu(this);
                     this.isLoaded = true;
                 },
 

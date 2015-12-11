@@ -1,0 +1,18 @@
+<div class="btn-group btn-group-xs">
+  <button type="button" class="btn btn-default">{{title}}</button>
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="caret"></span>
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <ul class="dropdown-menu">
+    {% for button in data %}
+        {% if button.type == 'sep' %}
+            <li role="separator" class="divider"></li>
+        {% else %}
+            {% if button.state %}
+                <li data-button-key="{{ button.key }}" class="menu-item"><a href="#">{{ button.label }}</a></li>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+  </ul>
+</div>

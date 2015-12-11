@@ -58,21 +58,57 @@ define(
             showFilter: function () {
                 this.view.showFilter();
             },
-            /**
-             * Bind events to tree
-             */
+
             bindEvents: function () {
                 this.contextMenu = new ContextMenu(this.buildContextMenuConfig());
-                this.contextMenu.beforeShow = jQuery.proxy(this.beforeShow, this);
 
+                this.contextMenu.beforeShow = jQuery.proxy(this.beforeShow, this);
                 this.currentEvent = null;
 
                 this.treeView.on('contextmenu', jQuery.proxy(this.onRightClick, this));
                 this.treeView.on('tree.dblclick', this.onDoubleClick);
                 this.treeView.on('tree.move', jQuery.proxy(this.onMove, this));
+                this.treeView.on('tree.click', this.updatePopinMenu.bind(this));
             },
 
-            beforeShow: function () {
+            updatePopinMenu: function (e) {
+                if (e.node.is_fake === true) {
+                    return;
+                }
+
+                this.currentEvent = e;
+                var filters = this.beforeShow(true);
+                this.view.toolbarMenu.disableButtons(filters);
+            },
+
+            hasSelection: function () {
+                var selected = this.treeView.getSelectedNode();
+                return selected;
+            },
+
+            handlePopInMenu: function (config) {
+                var self = this,
+                    menuItem,
+                    menu;
+
+                if (!this.view.toolbarMenu) { return false; }
+                menu = this.view.toolbarMenu;
+                menu.on("beforeShow", function () {
+                    if (!self.hasSelection()) {
+                        menu.hideAll();
+                    }
+                });
+
+                /* populate popin menu */
+                jQuery.each(config.menuActions, function (i) {
+                    menuItem = config.menuActions[i];
+                    menu.addButton(menuItem.btnCls, menuItem.btnLabel, menuItem.btnCallback);
+                });
+            },
+
+
+
+            beforeShow: function (computeFilter) {
 
                 var filters = [],
                     page = this.currentEvent.node;
@@ -95,6 +131,10 @@ define(
                     filters.push('bb5-context-menu-copy');
                     filters.push('bb5-context-menu-cut');
                     filters.push('bb5-context-menu-remove');
+                }
+
+                if (computeFilter) {
+                    return filters;
                 }
 
                 this.contextMenu.setFilters(filters);
@@ -273,6 +313,7 @@ define(
                         ]
                     };
 
+                this.handlePopInMenu(config);
                 return config;
             },
 
