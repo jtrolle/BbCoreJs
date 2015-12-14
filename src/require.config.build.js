@@ -54,7 +54,7 @@ define('hook', function () {
     };
 });
 
-var baseURI = document.getElementById('bb5-ui').getAttribute('data-base-url') + "resources/toolbar/";
+var baseURI = document.getElementById('bb5-ui').getAttribute('data-base-toolbar');
 require.config({
     baseUrl: baseURI,
     catchError: true,

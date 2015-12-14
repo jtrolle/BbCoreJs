@@ -146,5 +146,5 @@ require.config({
     }
 });
 
-require.config({ baseUrl: document ? document.getElementById('bb5-ui').getAttribute('data-base-url') + "resources/toolbar/" : './resources/toolbar/'});
+require.config({ baseUrl: document ? document.getElementById('bb5-ui').getAttribute('data-base-toolbar') : './resources/toolbar/'});
 
