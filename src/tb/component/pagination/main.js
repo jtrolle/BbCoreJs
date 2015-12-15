@@ -1,6 +1,6 @@
 /*global jQuery:false, $:false, Backbone:false */
 /*jshint -W004 */
-define(['jquery', 'jssimplepagination'], function (corejQuery) {
+define(['jquery', '../pagination/helper/renderer.helper', 'jssimplepagination'], function (corejQuery, Renderer) {
     'use strict';
     /*make sure our jQuery instance has the extension*/
     if (!corejQuery.fn.hasOwnProperty("pagination")) {
@@ -20,6 +20,7 @@ define(['jquery', 'jssimplepagination'], function (corejQuery) {
                 items: 0,
                 itemsOnPage: 10,
                 displayedPages: 5,
+                renderMode: 'default',
                 prevText: 'Prev',
                 nextText: 'Next',
                 theme: 'tpl-name'
@@ -28,17 +29,49 @@ define(['jquery', 'jssimplepagination'], function (corejQuery) {
             initialize: function (config) {
                 this.config = $.extend({}, this.defaultConfig, config);
                 this.IS_VISIBLE = false;
+                this.SINGLE_PAGE_MODE = "singlePage";
+                this.DEFAULT_PAGE_MODE = "default";
+                this.MAX_PAGES = 1000; //only 10 clicks on next on single page mode
                 this.silenceNextEvent = false;
+                this.renderList = {};
                 $.extend(this, {}, Backbone.Events);
                 this.widget = $("<div/>").clone();
                 this.bindEvents();
                 this.build();
+                this.handleMode();
                 this.setItemsOnPage(this.config.itemsOnPage, true);
             },
 
-            setItems: function (nb) {
-                this.invoke('updateItems', parseInt(nb, 10));
+            handleMode: function () {
+                if ($.inArray(this.config.renderMode, [this.DEFAULT_PAGE_MODE, this.SINGLE_PAGE_MODE]) === -1) {
+                    this.config.renderMode = 'default';
+                }
+                this.renderMode = this.config.renderMode;
+            },
+
+            setItems: function (total, itemsToShow) {
+                if (this.isSinglePageMode()) {
+                    total = this.MAX_PAGES;
+                    this.onLastPage = false;
+                }
+                if (isNaN(total)) {
+                    throw "setItemsException 'nb' parameter must be a number !";
+                }
+
+                this.invoke('updateItems', parseInt(total, 10));
+
+                if (this.isSinglePageMode()) {
+                    if (itemsToShow && (itemsToShow <= parseInt(this.getPaginationConf().itemsOnPage, 10))) {
+                    /* the last page has been reached */
+                        this.onLastPage = true;
+                    }
+                }
+
                 this.beforeRender(this.widget);
+            },
+
+            isSinglePageMode: function () {
+                return this.renderMode === this.SINGLE_PAGE_MODE;
             },
 
             setItemsOnPage: function (nb, silent) {
@@ -73,6 +106,8 @@ define(['jquery', 'jssimplepagination'], function (corejQuery) {
                 if (parseInt(state.items, 10) === 0 || parseInt(state.items, 10) <= parseInt(state.itemsOnPage, 10)) {
                     hideWidget = true;
                 }
+
+
                 if (hideWidget) {
                     $(this.widget).hide();
                     this.IS_VISIBLE = false;
@@ -87,7 +122,16 @@ define(['jquery', 'jssimplepagination'], function (corejQuery) {
                 return $(this.widget).data('pagination');
             },
 
+            beforeRender: function () {
+                var render = Renderer.render(this.renderMode, this);
+                if (!render) {
+                    throw "BeforeRenderException " + this.renderMode + " render can't be found !";
+                }
+                return render;
+            },
+
             reset: function () {
+                this.selectPage(1, true);
                 this.invoke('redraw');
                 this.beforeRender(this.widget);
             },
@@ -104,39 +148,10 @@ define(['jquery', 'jssimplepagination'], function (corejQuery) {
                     return;
                 }
                 this.beforeRender(this.widget);
-                this.trigger('pageChange', currentPage);
+                this.trigger('pageChange', currentPage, this.getItemsOnPage());
             },
 
             /* We provide a programatic way to adapt the render view */
-            beforeRender: function (widget) {
-                var mainContainer = $(widget).find('ul'),
-                    firstBtn = mainContainer.find('.first-btn'),
-                    prevCurrent = mainContainer.find('.page-link.prev').eq(0),
-                    nextCurrent = mainContainer.find('.next').eq(0),
-                    lastBtn = mainContainer.find('.last-btn');
-                $(mainContainer).addClass(this.defaultConfig.cls);
-                /* append first && last if needed */
-                if (!firstBtn.length) {
-                    $(mainContainer).prepend($('<li><a class="bb5-pagination-btn first-btn" href="#"><i class="fa fa-angle-double-left"></i></a></li>'));
-                }
-                if (!lastBtn.length) {
-                    $(mainContainer).append($('<li><a class="bb5-pagination-btn last-btn" href="#"><i class="fa fa-angle-double-right"></i></a></li>'));
-                }
-                /*handle current prev*/
-                if (!prevCurrent.length) {
-                    prevCurrent = mainContainer.find('.current.prev').eq(0);
-                }
-                prevCurrent.parent().append('<a class="current prev bb5-pagination-btn bb5-pagination-prev" href="javascript:;"><i class="fa fa-angle-left"></i></a>');
-                prevCurrent.remove();
-                /*handle next */
-                nextCurrent.parent().append('<a class="page-link next bb5-pagination-btn bb5-pagination-next" href="javascript:;"> <i class="fa fa-angle-right"></i></a>');
-                nextCurrent.remove();
-                mainContainer.find('.current').eq(1).addClass('bb5-pagination-current').parent().removeClass('active');
-                mainContainer.find('.disabled').removeClass('disabled');
-                this.checkState();
-                return widget;
-            },
-
             invoke: function (methodName) {
                 var args = Array.prototype.slice.call(arguments, 0);
                 args.shift();
@@ -164,6 +179,7 @@ define(['jquery', 'jssimplepagination'], function (corejQuery) {
                 this.silenceNextEvent = silent;
                 this.invoke('selectPage', pageNo);
             },
+
 
             prevPage: function () {
                 this.invoke('prevPage');
@@ -193,8 +209,14 @@ define(['jquery', 'jssimplepagination'], function (corejQuery) {
             },
 
             getItemsOnPage: function () {
-                var conf = this.getPaginationConf();
-                return conf.itemsOnPage;
+                var conf = this.getPaginationConf(),
+                    itemsOnPage = parseInt(conf.itemsOnPage, 10);
+
+                if (this.isSinglePageMode()) {
+                    itemsOnPage = itemsOnPage + 1; //this allows us to compute
+                }
+
+                return itemsOnPage;
             }
         });
     return {
