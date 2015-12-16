@@ -3,6 +3,7 @@ define(['component!datastore', 'jsclass'], function (DataStore) {
     'use strict';
     var restDataStore = new DataStore.RestDataStore({
         resourceEndpoint: 'classcontent',
+
         rewriteResourceEndpoint: function (type, params) {
             if (type === "delete") {
                 return "classcontent/" + params.type;
@@ -37,6 +38,11 @@ define(['component!datastore', 'jsclass'], function (DataStore) {
 
     restDataStore.addFilter("byAfterDate", function (value, restParams) {
         restParams.criterias.afterPubdateField = value;
+        return restParams;
+    });
+
+    restDataStore.addFilter("usePagination", function (value, restParams) {
+        restParams.criterias.usePagination = value;
         return restParams;
     });
 

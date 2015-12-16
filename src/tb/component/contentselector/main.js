@@ -75,7 +75,8 @@ define(
                     mode: "view",
                     resetOnClose: false,
                     pagination: {
-                        itemsOnPage: 5
+                        itemsOnPage: 5,
+                        renderMode: "singlePage"
                     },
                     rangeSelector: {
                         range: [10, 50, 10],
@@ -121,6 +122,7 @@ define(
                     this.pageRangeSelector = require("component!rangeselector").createPageRangeSelector(this.config.rangeSelector);
                     this.searchEngine = require("cs-control/searchengine.control").createSearchEngine(this.config.searchEngine);
                     this.contentPagination.setItemsOnPage(this.pageRangeSelector.getValue(), true);
+                    this.contentDataView.setItemsToShow(this.contentPagination.getItemsOnPage());
                 },
 
                 handleViewModeChange: function (e) {
@@ -172,6 +174,7 @@ define(
                 /* create components */
                 initComponents: function () {
                     this.contentRestDataStore = require('content.datastore');
+                    this.contentRestDataStore.applyFilter('usePagination', 0);
                     this.categoryTreeView = this.createCategoryTreeView();
                     this.contentDataView = this.createDataView();
                     this.contentPagination = this.createPagination();
@@ -213,6 +216,7 @@ define(
                 reset: function (keepSelection) {
                     keepSelection =  keepSelection || false;
                     this.contentDataView.reset();
+                    this.contentPagination.reset();
                     this.contentPagination.setItems(0);
                     this.pageRangeSelector.reset();
                     this.searchEngine.reset();
@@ -327,19 +331,22 @@ define(
                     /* When we click on a node */
                     this.categoryTreeView.on('click', function (e) {
                         var selectedNode = e.node;
+
                         if (jQuery(selectedNode.element).hasClass("jqtree-selected")) {
                             return false;
                         }
                         if (selectedNode.isRoot) {
                             return;
                         }
+
                         if (selectedNode.isACategory) {
                             self.contentRestDataStore.unApplyFilter('byClasscontent').applyFilter('byCategory', selectedNode.name);
                         } else {
                             self.contentRestDataStore.unApplyFilter('byCategory').applyFilter('byClasscontent', selectedNode.type);
                         }
+                        self.contentPagination.reset();
                         /* always reset pagination when we change category*/
-                        self.contentRestDataStore.setStart(0).setLimit(self.pageRangeSelector.getValue()).execute();
+                        self.contentRestDataStore.setStart(0).setLimit(self.contentPagination.getItemsOnPage()).execute();
                     });
                     /* When range Changes */
                     this.pageRangeSelector.on("pageRangeSelectorChange", function (val) {
@@ -347,7 +354,7 @@ define(
                         self.contentPagination.setItemsOnPage(val); // -->will trigger pageChange
                     });
                     /* When page changes */
-                    this.contentPagination.on("pageChange", function (page) {
+                    this.contentPagination.on("pageChange", function (page, itemsToShow) {
                         var limit = self.pageRangeSelector.getValue(),
                             start = (page - 1) * limit,
                             seletectedNode = self.categoryTreeView.getSelectedNode();
@@ -355,6 +362,7 @@ define(
                         if (!seletectedNode || (seletectedNode && seletectedNode.isRoot)) {
                             return;
                         }
+                        self.contentRestDataStore.setLimit(itemsToShow);
                         self.contentRestDataStore.execute();
                     });
                     /* when render : to handle layout */
@@ -399,9 +407,9 @@ define(
 
                 updateCurrentNodeInfos: function () {
                     var resultTotal = this.contentRestDataStore.getTotal();
-                    jQuery(this.widget).find(".result-infos").html(this.categoryTreeView.getSelectedNode().name + ' - ' + resultTotal + ' item(s)');
+                    jQuery(this.widget).find(".result-infos").html(this.categoryTreeView.getSelectedNode().name);
                     /* update pagination here */
-                    this.contentPagination.setItems(resultTotal);
+                    this.contentPagination.setItems(resultTotal, this.contentRestDataStore.count());
                 },
 
                 setDataViewMode: function (mode) {
@@ -462,6 +470,7 @@ define(
                     if (!currentSelectedNode || currentSelectedNode.isRoot) { return false; }
                     this.reset(true);
                     this.contentRestDataStore.clear();
+                    this.contentRestDataStore.applyFilter('usePagination', 0);
                     if (currentSelectedNode.isACategory) {
                         this.contentRestDataStore.applyFilter('byCategory', currentSelectedNode.name);
                     } else {
@@ -469,7 +478,7 @@ define(
                     }
 
                     this.contentRestDataStore
-                        .setStart(0).setLimit(this.pageRangeSelector.getValue())
+                        .setStart(0).setLimit(this.contentPagination.getItemsOnPage())
                         .applyFilter("bySite", site)
                         .execute();
                 },

@@ -59,10 +59,16 @@ define(
                     height: jQuery(window).height() - (20 * 2),
                     width: jQuery(window).width() - (20 * 2)
                 },
+
                 rangeSelector: {
                     range: [10, 50, 10],
                     selected: 10
                 },
+
+                pagination: {
+                    renderMode: 'singlePage'
+                },
+
                 mode: 'edit',
                 searchEngine: {},
                 mediaView: {
@@ -210,9 +216,11 @@ define(
 
                     this.rangeSelector = this.createRangeSelector(this.config.rangeSelector);
                     this.searchEngine = this.createSearchEngine(this.config.searchEngine);
-                    this.mediaDataStore.setLimit(this.rangeSelector.getValue());
+
                     this.mediaPagination = require("component!pagination").createPagination(this.config.pagination);
                     this.mediaPagination.setItemsOnPage(this.rangeSelector.getValue(), true);
+                    this.mediaDataStore.setLimit(this.mediaPagination.getItemsOnPage());
+                    this.mediaListView.setItemsToShow(this.rangeSelector.getValue());
                     this.mainZone = jQuery(this.widget).find('.bb5-windowpane-main').eq(0);
                 },
 
@@ -428,7 +436,8 @@ define(
                 handleMediaSelection: function (e) {
                     this.selectedNode = e.node;
                     this.mediaDataStore.clear();
-                    this.mediaDataStore.setLimit(this.rangeSelector.getValue());
+                    this.mediaDataStore.setLimit(this.mediaPagination.getItemsOnPage());
+                    this.mediaPagination.reset();
                     this.mediaDataStore.applyFilter("byMediaFolder", e.node.uid).execute();
                     this.mediaFolderTreeView.invoke("selectNode", e.node);
                     this.menusHelper.setSelectedNode(e.node);
@@ -510,9 +519,10 @@ define(
                         rootNode = this.mediaFolderTreeView.getRootNode();
                         this.selectedNode = rootNode.children[0];
                     }
+
                     resultTotal = this.mediaDataStore.getTotal();
-                    jQuery(this.widget).find(".result-infos").html(this.selectedNode.name + ' - ' + resultTotal + ' item(s)');
-                    this.mediaPagination.setItems(resultTotal);
+                    jQuery(this.widget).find(".result-infos").html(this.selectedNode.name);
+                    this.mediaPagination.setItems(resultTotal, this.mediaDataStore.count());
                 },
 
                 handleChanges: function () {
@@ -521,7 +531,7 @@ define(
                     } else {
                         if (this.selectedNode.uid) {
                             this.mediaDataStore.clear();
-                            this.mediaDataStore.setLimit(this.rangeSelector.getValue());
+                            this.mediaDataStore.setLimit(this.mediaPagination.getItemsOnPage());
                             this.mediaDataStore.applyFilter("byMediaFolder", this.selectedNode.uid);
                         }
                     }
@@ -545,15 +555,19 @@ define(
 
                     this.mediaFolderTreeView.nodeEditor.on("editNode", jQuery.proxy(this.handleNodeEdition, this));
                     jQuery(this.widget).find(".viewmode-btn").on("click", jQuery.proxy(this.handleViewModeChange, this));
+
                     this.rangeSelector.on("pageRangeSelectorChange", function (val) {
-                        self.mediaDataStore.setLimit(val);
                         self.mediaPagination.setItemsOnPage(val); // -->will trigger pageChange
+                        self.mediaListView.setItemsToShow(val);
                     });
+
                     /* pagination events */
-                    this.mediaPagination.on("pageChange", function (page) {
+                    this.mediaPagination.on("pageChange", function (page, itemsToShow) {
+                        self.mediaDataStore.setLimit(itemsToShow);
                         self.mediaDataStore.computeNextStart(page);
                         self.mediaDataStore.execute();
                     });
+
                     this.mediaPagination.on('afterRender', function (isVisible) {
                         var position = (isVisible === true) ? 203 : 178;
                         self.fixDataviewLayout(position);

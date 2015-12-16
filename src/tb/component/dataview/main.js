@@ -53,8 +53,8 @@ define(
                     renderMode: 'list',
                     renderAsCollection: false,
                     enableSelection: true,
+                    itemsToShow: null,
                     allowMultiSelection: true,
-
                     customItemEvents: {},
                     itemRenderer: function () {
                         return '<p>An item renderer must be provided</p>';
@@ -74,6 +74,7 @@ define(
                     this.handleCustomItemEvents();
                     this.selectionInfos = [];
                     this.data = {};
+                    this.setItemsToShow(this.config.itemsToShow);
                     this.bindEvents();
                 },
 
@@ -92,6 +93,13 @@ define(
                         });
                     });
                 },
+
+                setItemsToShow: function (nbItem) {
+                    var limit = parseInt(nbItem, 10);
+                    this.itemsToShow = isNaN(limit) ? null : limit;
+                },
+
+
 
                 buildDefaultRenderers: function () {
                     var listRenderer = {
@@ -172,6 +180,13 @@ define(
                     this.updateUi();
                 },
 
+                showNexItem: function (current) {
+                    if (!this.itemsToShow) {
+                        return true;
+                    }
+                    return (current === this.itemsToShow) ? false : true;
+                },
+
                 updateUi: function () {
                     var items = (this.renderAsCollection) ? this.data : this.renderItems(),
                         renderer = this.getModeRenderer(this.renderMode).render(items);
@@ -219,6 +234,7 @@ define(
                     var self = this,
                         ctn = document.createDocumentFragment();
                     jQuery.each(this.data, function (i, item) {
+
                         var itemRender = jQuery(self.itemRenderer(self.renderMode, item));
                         if (!itemRender || itemRender.length === 0) {
                             Core.exception('BaseDataViewException', 50002, '[renderItems] InvalidAppConfig [appPath] key is missing');
@@ -230,6 +246,8 @@ define(
                         jQuery(itemRender).addClass(self.config.itemCls);
 
                         ctn.appendChild(jQuery(itemRender).get(0));
+                        /*show next*/
+                        return self.showNexItem(i + 1);
                     });
                     return ctn;
                 },
