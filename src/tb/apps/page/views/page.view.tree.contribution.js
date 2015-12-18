@@ -68,7 +68,22 @@ define(
                 this.treeView.on('contextmenu', jQuery.proxy(this.onRightClick, this));
                 this.treeView.on('tree.dblclick', this.onDoubleClick);
                 this.treeView.on('tree.move', jQuery.proxy(this.onMove, this));
-                this.treeView.on('tree.click', this.updatePopinMenu.bind(this));
+                this.treeView.on('tree.select', this.handleNodeSelection.bind(this));
+            },
+
+
+            handleNodeSelection: function (event) {
+                if (!event.node) {
+                    this.view.toolbarMenu.disable();
+                } else {
+                    if (event.node.is_fake === true) {
+                        return;
+                    }
+
+                    this.currentEvent = event;
+                    var filters = this.beforeShow(true);
+                    this.view.toolbarMenu.disableButtons(filters);
+                }
             },
 
             updatePopinMenu: function (e) {
@@ -87,29 +102,24 @@ define(
             },
 
             handlePopInMenu: function (config) {
-                var self = this,
-                    menuItem,
+                var menuItem,
+                    menuList = [],
                     menu;
 
                 if (!this.view.toolbarMenu) { return false; }
                 menu = this.view.toolbarMenu;
-                menu.on("beforeShow", function () {
-                    if (!self.hasSelection()) {
-                        menu.hideAll();
-                    }
-                });
 
                 /* populate popin menu */
                 jQuery.each(config.menuActions, function (i) {
                     menuItem = config.menuActions[i];
-                    menu.addButton(menuItem.btnCls, menuItem.btnLabel, menuItem.btnCallback);
+                    menuList.push({key: menuItem.btnCls, label: menuItem.btnLabel, action: menuItem.btnCallback});
                 });
+
+                menu.setButtons(menuList);
             },
 
 
-
-            beforeShow: function (computeFilter) {
-
+            beforeShow: function () {
                 var filters = [],
                     page = this.currentEvent.node;
 
@@ -127,17 +137,14 @@ define(
                     filters.push('bb5-context-menu-paste-after');
                 }
 
-                if (page.is_root === true) {
+                if (this.treeView.isRoot(page)) {
                     filters.push('bb5-context-menu-copy');
                     filters.push('bb5-context-menu-cut');
                     filters.push('bb5-context-menu-remove');
                 }
 
-                if (computeFilter) {
-                    return filters;
-                }
-
                 this.contextMenu.setFilters(filters);
+                return filters;
             },
 
             /**

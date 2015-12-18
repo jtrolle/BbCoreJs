@@ -36,13 +36,22 @@ define(['jquery', 'Core', 'Core/Renderer', 'text!../menu/templates/layout.html',
             this.uiState = new Core.SmartList({idKey: 'key'});
             this.VISIBLE_STATE = 1;
             this.INVISIBLE_STATE = 0;
-
             this.bindEvents();
+        },
+
+        setButtons: function (buttons) {
+            if (!Array.isArray(buttons)) { return false; }
+            var self = this;
+            jQuery.map(buttons, function (buttons) {
+                buttons.state = self.VISIBLE_STATE;
+            });
+            this.uiState.setData(buttons);
         },
 
         addButton: function (key, label, action) {
             if (typeof key !== 'string') {  return; }
             if (typeof label !== 'string') { return; }
+            this.enable();
             action = (typeof action === 'function') ? action : jQuery.noop;
             var item = {key: key, label: label, action: action, state: this.VISIBLE_STATE};
             this.buttonKeys.push(key);
@@ -82,6 +91,10 @@ define(['jquery', 'Core', 'Core/Renderer', 'text!../menu/templates/layout.html',
                 self.disableButton(key);
             });
 
+            if (!this.hasVisibleItems()) {
+                this.disable();
+            }
+
         },
 
         enableButton: function (key) {
@@ -97,6 +110,7 @@ define(['jquery', 'Core', 'Core/Renderer', 'text!../menu/templates/layout.html',
         bindEvents: function () {
             var self = this;
             this.uiState.onChange = this.updateUi.bind(this);
+            this.uiState.onInit = this.onInit.bind(this);
             this.widget.on("click", ".dropdown-toggle", this.showMenu.bind(this));
             this.widget.on("click", ".menu-item", this.handleClick.bind(this));
             jQuery("body").on("click", function () {
@@ -113,18 +127,18 @@ define(['jquery', 'Core', 'Core/Renderer', 'text!../menu/templates/layout.html',
             this.isVisible = false;
         },
 
-        /* before show */
+        /* Before show */
         showMenu: function (e) {
             e.stopPropagation();
             if (this.isVisible) {
                 return this.hideMenu();
             }
             this.trigger("beforeShow", this);
+
             if (this.hasVisibleItems()) {
                 this.widget.find(".dropdown-menu").show();
                 this.isVisible = true;
             }
-
             return true;
         },
 
@@ -133,6 +147,16 @@ define(['jquery', 'Core', 'Core/Renderer', 'text!../menu/templates/layout.html',
             jQuery.map(this.buttonKeys, function (btnKey) {
                 self.enableButton(btnKey);
             });
+        },
+
+        disable: function () {
+            this.isEnabled = false;
+            this.widget.find(".btn").addClass("disabled");
+        },
+
+        enable: function () {
+            this.isEnabled = true;
+            this.widget.find(".btn").removeClass("disabled");
         },
 
         hideAll: function () {
@@ -151,6 +175,11 @@ define(['jquery', 'Core', 'Core/Renderer', 'text!../menu/templates/layout.html',
             }
             this.hideMenu();
             return true;
+        },
+
+        onInit: function () {
+            this.updateUi();
+            this.disable();
         },
 
         updateUi: function () {
