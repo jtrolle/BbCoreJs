@@ -62,6 +62,14 @@ require.config({
     catchError: true,
     waitSeconds: 15,
     urlArgs: 'cb=' + Math.random(),
+    config: {
+        text: {
+            useXhr: function () {
+                "use strict";
+                return true;
+            }
+        }
+    },
     paths: {
         'component': 'src/tb/component/component',
         'filter': 'src/tb/filter/filter',

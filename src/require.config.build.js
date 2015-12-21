@@ -59,6 +59,14 @@ require.config({
     baseUrl: baseURI,
     catchError: true,
     waitSeconds: 15,
+    config: {
+        text: {
+            useXhr: function () {
+                "use strict";
+                return true;
+            }
+        }
+    },
     paths: {
         'component': 'src/tb/component/component',
         'filter': 'src/tb/filter/filter',
