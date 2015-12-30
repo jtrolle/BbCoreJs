@@ -10631,6 +10631,29 @@ fieldset[disabled] #bb5-ui .btn-online.active {
 #bb5-ui .content-actions a {
   cursor: pointer;
 }
+.bb-contentsplitter-marker {
+  position: inline-block;
+  border: 1px solid #e34c26;
+  width: 40px;
+  height: 40px;
+}
+.split-panel {
+  position: absolute;
+  top: 5px;
+  cursor: pointer;
+}
+.split-panel .contentsplitter-label {
+  background: #e34c26;
+  color: white;
+  font-size: small;
+  margin-left: 2px;
+  padding: 5px;
+}
+.split-panel button {
+  position: 'inline-block';
+  border: 1px solid #e34c26;
+  margin-left: 5px;
+}
 /* bb notify css start author http://tympanus.net/codrops/2012/06/25/timed-notifications-with-css-animations/ */
 #bb-box-wrapper {
   position: fixed;

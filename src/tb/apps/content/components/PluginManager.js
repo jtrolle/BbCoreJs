@@ -157,7 +157,7 @@ define(['Core', 'jquery', 'Core/Utils', 'Core/Api', 'actionContainer', 'undersco
                 Command = (function (f, c) {
                     return function () {
                         this.execute = function () {
-                            f.call(c);
+                            f.apply(c, arguments);
                         };
                     };
                 }(func, funcContext));

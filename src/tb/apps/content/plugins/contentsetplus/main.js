@@ -160,7 +160,7 @@ define(
                 return [
                     {
                         name: 'Plus',
-                        ico: 'fa fa fa-plus',
+                        ico: 'fa fa-plus',
                         label: Translator.translate('add_item_plus_plugin'),
                         cmd: self.createCommand(self.add, self),
                         checkContext: function () {
