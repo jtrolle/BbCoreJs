@@ -45,13 +45,15 @@ define(
              */
             initialize: function (data, action) {
                 var self = this,
-                    form;
+                    form,
+                    idPopIn = 'current-user-popin';
 
                 popinManager = require('component!popin');
-                this.popin = popinManager.createPopIn({id: 'current-user-popin'});
+                jQuery('#' + idPopIn).dialog("destroy");
+                jQuery('#' + idPopIn).remove();
+                this.popin = popinManager.createPopIn({id: idPopIn});
                 this.user = data.user;
                 popin = this.popin;
-
                 if ('password' === action) {
                     this.popin.setTitle(trans('password_edit'));
                 } else {

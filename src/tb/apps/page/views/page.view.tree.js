@@ -212,7 +212,6 @@ define(
             handleNodeActionMemory: function () {
                 var memorizedNode,
                     self = this;
-
                 jQuery.each(this.nodeActionMemory, function (i) {
                     memorizedNode = self.treeView.getNodeById(self.nodeActionMemory[i]);
                     if (memorizedNode) {
@@ -236,7 +235,6 @@ define(
             * @param {Object} li
             */
             onCreateLi: function (node, li) {
-
                 var title = li.find('.jqtree-title');
 
                 if (node.is_fake !== true) {
@@ -442,7 +440,6 @@ define(
                 this.setProcessingState();
                 this.mask();
                 PageRepository.findAncestors(pageUid).done(function (ancestorInfos) {
-
                     if (!Array.isArray(ancestorInfos) || ancestorInfos.length === 0) {
                         self.clearProcessingState();
                         self.unmask();
@@ -560,9 +557,13 @@ define(
             },
 
             loadTreeRoot: function () {
-                var root = this.treeView.invoke("getTree");
-                if (root && root.children.length !== 0) {
+                var root = this.treeView.invoke("getTree"),
+                    actualRoot = root.children[0];
+                if (root && actualRoot.children.length !== 0) {
                     this.treeView.invoke("openNode", root.children[0]);
+                } else {
+                    this.clearProcessingState();
+                    this.unmask();
                 }
             },
 
@@ -607,7 +608,6 @@ define(
                 var self = this,
                     dfd = jQuery.Deferred(),
                     rootNode;
-
                 if (this.hasSiteSelector() && !this.siteSelectorIsReady) {
                     return this.callStack.append(this.getTree);
                 }
@@ -622,7 +622,6 @@ define(
                 }).fail(function () {
                     dfd.reject();
                 });
-
                 return dfd.promise();
             }
         });

@@ -143,9 +143,9 @@ define(
 
                     configForm.onSubmit = jQuery.proxy(self.onSubmit, self);
                     configForm.onValidate = self.onValidate;
+                    Core.Mediator.subscribeOnce("on:form:render", self.handleLayoutChange.bind(self));
 
                     self.formBuilder.renderForm(configForm).done(function (html) {
-                        Core.Mediator.subscribeOnce("on:form:render", self.handleLayoutChange.bind(self));
                         self.popin.setContent(html);
                         self.popin.unmask();
                     });

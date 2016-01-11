@@ -82,7 +82,7 @@ define(['Core', 'Core/Renderer', 'BackBone', 'jquery'], function (Core, Renderer
                     var target = jQuery(this),
                         name = target.prop('name');
 
-                    if (!target.prop('checked')) {
+                    if (name && !target.prop('checked')) {
                         if (paramObj[name] === undefined) {
                             paramObj[name] = [];
                         }

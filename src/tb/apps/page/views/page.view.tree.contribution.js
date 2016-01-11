@@ -397,10 +397,7 @@ define(
             },
 
             loadTreeRoot: function () {
-                var root = this.treeView.invoke("getTree");
-                if (root && root.children.length !== 0) {
-                    this.treeView.invoke("openNode", root.children[0]);
-                }
+                this.view.loadTreeRoot();
             },
             /**
              * Render the template into the DOM with the ViewManager
@@ -411,7 +408,7 @@ define(
                 this.view.getTree().done(function (tree) {
                     tree.display();
                     if (self.autoLoadRoot) {
-                        self.loadTreeRoot(tree);
+                        self.loadTreeRoot();
                     }
                 });
 
