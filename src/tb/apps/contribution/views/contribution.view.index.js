@@ -40,6 +40,9 @@ define(
                 element.on('click', '.bundle-toolbar-global-cancel', this.manageCancel);
                 element.on("click", "#btn-show-mediaLibrary", this.showMediaLibrary);
                 element.on("click", "#keyword-editor", this.showKwEditor.bind(this));
+                if (sessionStorage.getItem('loadTree') === 'true') {
+                    this.showTree();
+                }
             },
 
             showContentSelector: function () {
@@ -58,6 +61,7 @@ define(
             },
 
             showTree: function () {
+                sessionStorage.setItem('loadTree', 'true');
                 var popinId = 'bb-page-tree',
                     treePromise,
                     config = {

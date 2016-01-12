@@ -54,6 +54,7 @@ define(
                     this.popIn.setContent(this.popinTemplate);
                     this.popIn.addOption("create", jQuery.proxy(this.handleCreate, this));
                     this.popIn.addOption("open", jQuery.proxy(this.initOnOpen, this));
+                    this.popIn.addOption("close", jQuery.proxy(this.onClose, this));
 
                     if (this.options.hasOwnProperty("autoDisplay") && this.options.autoDisplay) {
                         this.display();
@@ -125,6 +126,9 @@ define(
                     this.options.open(this);
                     this.options.onCreatePopInMenu(this);
                     this.isLoaded = true;
+                },
+                onClose: function () {
+                    sessionStorage.removeItem("loadTree");
                 },
 
                 createPopIn: function () {
