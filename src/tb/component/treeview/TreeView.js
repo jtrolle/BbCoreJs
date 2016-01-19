@@ -135,6 +135,12 @@ define(['jquery', 'tb.component/treeview/NodeEditor', 'component!translator', "B
             return this.invoke("getTree");
         },
         /**
+         * Select a node
+         */
+        selectNode: function (node) {
+            return this.invoke("selectNode", node);
+        },
+        /**
          * Get a node by it's Id
          *  @param {int} node id
          *  @return {node}

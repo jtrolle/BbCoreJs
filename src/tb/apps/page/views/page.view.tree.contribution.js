@@ -155,7 +155,7 @@ define(
                 if (event.node.is_fake === true) {
                     return;
                 }
-
+                this.treeView.selectNode(event.node);
                 this.currentEvent = event;
                 this.contextMenu.enable();
                 this.contextMenu.show(event.click_event);
