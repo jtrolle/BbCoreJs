@@ -26,12 +26,11 @@ define('tb.component/formbuilder/form/element/File', ['dropzone'], function () {
      */
     return {
 
-        initialize: function (key, config, formTag, view, template, error) {
+        initialize: function (key, config, formTag, view, template, error, mainForm) {
             this.callSuper(key, config, formTag, error);
             this.view = view;
             this.template = template;
-
-            this.viewObject = new this.view(this.template, this.formTag, this);
+            this.viewObject = new this.view(this.template, this.formTag, this, mainForm);
         },
 
         render: function () {

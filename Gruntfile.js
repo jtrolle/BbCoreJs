@@ -214,7 +214,8 @@ module.exports = function (grunt) {
 
                         'cryptojs.core',
                         'cryptojs.md5',
-                        'multiselect-two-sides'
+                        'multiselect-two-sides',
+                        'cropper'
                     ]
                 }
             }

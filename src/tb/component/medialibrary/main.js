@@ -134,6 +134,7 @@ define(
                 },
 
                 onClose: function () {
+
                     if (this.config.mode === this.EDIT_MODE) {
                         if (this.triggerCloseEvent) {
                             this.trigger("close", this.mediaListView.getSelection());
@@ -144,6 +145,7 @@ define(
                     }
                     Core.ApplicationManager.invokeService('content.main.registerPopin', 'mediaLibrary');
                     this.triggerCloseEvent = true;
+                    Core.set("MEDIA_LIBRARY_IS_VISIBLE", false);
                 },
 
                 reset: function () {
@@ -345,6 +347,7 @@ define(
                                 mediaInfos = {
                                     id: mediaItem.id
                                 };
+                                Core.set("DISABLE_CROP", false);
                                 deps.EditionHelper.show(content, {
                                     onValidate: jQuery.proxy(self.validationHandler, self),
                                     onSave: jQuery.proxy(self.onSaveHandler, self, mediaInfos),
@@ -360,7 +363,7 @@ define(
                                         content_type: content.type,
                                         folder_uid: self.selectedNode.uid
                                     };
-
+                                    Core.set("DISABLE_CROP", true);
                                     deps.EditionHelper.show(content, {
                                         title: trans('create_a_new_media') + " " + self.getCurrentMedia(type).title,
                                         onSave: jQuery.proxy(self.onSaveHandler, self, mediaInfos),
@@ -648,6 +651,8 @@ define(
                 display: function () {
                     this.dialog.display();
                     this.trigger("open");
+                    Core.set("MEDIA_LIBRARY_IS_VISIBLE", true);
+                    Core.set("DISABLE_CROP", false);
                 },
 
                 close: function () {
