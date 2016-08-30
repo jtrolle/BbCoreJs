@@ -43,7 +43,7 @@ define(
                     if (date !== 'Invalid Date') {
                         ts = date.getTime() / 1000;
                         if (!isNaN(ts)) {
-                            if (form.elements[key].type === 'Element/Date') {
+                            if (form.elements[key].element !== undefined && form.elements[key].element.type === 'Element/Date') {
                                 data = {};
                                 data.value = ts;
                             } else {
