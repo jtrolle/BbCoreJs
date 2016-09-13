@@ -1,6 +1,6 @@
 {
-    "name": "backbee/bb-core-js",
-    "description": "BbCoreJs is the javascript client for backbee/backbee CMS",
+    "name": "backbee/backbee-js",
+    "description": "BackBee JS is the javascript client for backbee/backbee-cms",
     "keywords": ["CMS", "Core", "Content Management", "No backend CMS", "User Management", "Bundle"],
     "license": "GPL-3.0+",
     "authors": [
