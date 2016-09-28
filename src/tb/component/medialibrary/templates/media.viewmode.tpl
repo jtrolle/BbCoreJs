@@ -1,6 +1,7 @@
 <li data-uid={{id}} class="bb5-selector-item">
     <p class="item-picture"><a title="{{title}}" href="javascript:;"><img src="{{image}}"></a></p>
-    <p class="item-ttl"><strong class="txt-highlight">{{smallTitle}}</strong></p>
+    <p class="item-ttl">{{smallTitle}}</p>
+
     <p class="item-meta">
           {% if content.extra %}
              {% if content.extra.image_width %}
@@ -12,8 +13,8 @@
           {% endif %}
     </p>
     <div class="item-action">
-        <p><button class="btn btn-simple btn-sm show-media-btn"><i class="fa fa-eye"></i>{{ "see" | trans }}</button></p>
-        <p><button class="btn btn-simple btn-sm edit-media-btn"><i class="fa fa-pencil"></i>{{ "edit" | trans }}</button></p>
-        <p><button class="btn btn-simple btn-sm del-media-btn"><i class="fa fa-trash-o"></i>{{"delete" | trans}}</button></p>
+        <p><button class="btn btn-simple btn-sm show-media-btn"><i class="fa fa-eye"></i></button></p>
+        <p><button class="btn btn-simple btn-sm edit-media-btn"><i class="fa fa-pencil"></i></button></p>
+        <p><button class="btn btn-simple btn-sm del-media-btn"><i class="fa fa-trash-o"></i></button></p>
     </div>
 </li>

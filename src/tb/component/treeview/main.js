@@ -20,7 +20,8 @@
 require.config({
     paths: {
         //Templates
-        'treeview.templates': 'src/tb/component/treeview/templates'
+        'treeview.templates': 'src/tb/component/treeview/templates',
+        'treeview.helper.droppable': 'src/tb/component/treeview/helpers/TreeviewDroppable.helper'
     }
 });
 

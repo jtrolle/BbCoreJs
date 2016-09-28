@@ -48,6 +48,7 @@
     "cant_select_current_content": "Ce contenu ne peut pas être sélectionné",
     "change_password": "Changer de mot de passe",
     "changed_to": "Changer pour",
+    "choose": "Choisir",
     "choose_an_action": "Choisir une action",
     "cke_default_message": "Cliquer sur du texte pour le modifier",
     "clear_all": "Rafraîchir",
@@ -174,6 +175,7 @@
     "manage_rights": "Gérer les droits",
     "manage_users_and_groups": "Gérer les droits et les groupes",
     "media": "Média",
+    "media_already_in_folder": "Le média {0} est déjà dans le dossier {1}!",
     "media_already_in_medialibrary": "Ce contenu est déjà dans la médiathèque",
     "media_height": "H",
     "media_width": "L",
@@ -185,6 +187,7 @@
     "modified_at": "Modifié le",
     "modified_date": "Date de modification",
     "move_to_page": "Placer la page dans l'arborescence",
+    "media_to_folder": "Le média {0} a été déplacé dans le dossier {1}!",
 
     "name": "Nom",
     "name_is_required": "Nom obligatoire",

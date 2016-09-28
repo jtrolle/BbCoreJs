@@ -51,7 +51,7 @@ define(['jquery', '../pagination/helper/renderer.helper', 'jssimplepagination'],
 
             setItems: function (total, itemsToShow) {
                 if (this.isSinglePageMode()) {
-                    total = (isNaN(total)) ? 0 : this.MAX_PAGES;
+                    total = (isNaN(total) || (total === 0)) ? 0 : this.MAX_PAGES;
                     this.onLastPage = false;
                 }
                 if (isNaN(total)) {
@@ -66,7 +66,6 @@ define(['jquery', '../pagination/helper/renderer.helper', 'jssimplepagination'],
                         this.onLastPage = true;
                     }
                 }
-
                 this.beforeRender(this.widget);
             },
 

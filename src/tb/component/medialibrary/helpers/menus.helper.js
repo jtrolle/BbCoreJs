@@ -226,6 +226,7 @@ define(['component!contextmenu', 'component!menu', 'jquery', 'component!notify']
 
         setSelectedNode: function (node) {
             selectedNode = node;
+            if (!toolbarMenu) { return false; }
             updateToolbarMenu();
         },
 
