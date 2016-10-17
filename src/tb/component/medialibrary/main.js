@@ -1,3 +1,4 @@
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -7,6 +8,7 @@ require.config({
         'mediaFolder.datastore': 'src/tb/component/medialibrary/datastore/mediaFolder.datastore',
         'media.datastore': 'src/tb/component/medialibrary/datastore/media.datastore',
         'mediaFolder.menusHelper': 'src/tb/component/medialibrary/helpers/menus.helper',
+        'mediaItem.dndHelder': 'src/tb/component/medialibrary/helpers/dnd.helper',
         'mediaItem.renderer': 'src/tb/component/medialibrary/helpers/mediaitemrenderer.helper'
     }
 });
@@ -33,7 +35,8 @@ define(
         "jsclass",
         "component!pagination",
         "component!notify",
-        "component!jquery-layout"
+        "component!jquery-layout",
+        "mediaItem.dndHelder"
     ],
     function (
         require,
@@ -77,17 +80,18 @@ define(
                 searchEngine: {},
                 mediaView: {
                     allowMultiSelection: true,
+                    allowCustomItem: true,
                     selectedItemCls: "selected",
                     css: {
                         width: "auto",
                         height: "auto"
                     },
                     noResultCallback: function () {
-                        jQuery(this.dataWrapper).html(Translator.translate('media_library_no_result'));
+                        jQuery(this.dataWrapper).append(Translator.translate('media_library_no_result'));
                     }
                 },
                 resetOnClose: true,
-                mediaFolderTreeView: {}
+                mediaFolderTreeView: { droppable: true}
             },
             trans = require('Core').get('trans') || function (value) {return value; },
             MediaLibrary = new JS.Class({
@@ -184,10 +188,6 @@ define(
 
                 addButtons: function () {
                     var self = this;
-                    this.dialog.addButton(trans("add_and_close"), function () {
-                        self.triggerCloseEvent = true;
-                        self.close();
-                    });
                     this.dialog.addButton(trans("cancel"), function () {
                         self.triggerCloseEvent = false;
                         self.close();
@@ -212,7 +212,7 @@ define(
                         }
                     });
                     this.widgetLayout.resizeAll();
-                    this.widgetLayout.sizePane("west", 235);
+                    this.widgetLayout.sizePane("west", 300);
                     jQuery(this.widget).find(".ui-layout-north").eq(0).css("zIndex", "auto");
                 },
 
@@ -234,6 +234,10 @@ define(
                     this.maskMng = require('component!mask').createMask({});
                     this.menusHelper = require('mediaFolder.menusHelper');
                     this.menusHelper.setMainWidget(this);
+
+                    /* deal with dnd */
+                    this.dndHelper = require('mediaItem.dndHelder');
+                    this.dndHelper.setMaintWidget(this);
 
                     this.rangeSelector = this.createRangeSelector(this.config.rangeSelector);
                     this.searchEngine = this.createSearchEngine(this.config.searchEngine);
@@ -269,6 +273,17 @@ define(
                 },
 
                 createMediaFolderView: function () {
+                    var self = this,
+                        evt = {};
+                    this.config.mediaFolderTreeView.onCreateLi = function (node, $li) {
+                        $li.css({ position: "relative" });
+                        $li.append("<a href='javascript:;' class='jq_options'><i class='fa show-node-options fa-plus'></i></a>");
+                        $li.on("click", ".show-node-options", function (e) {
+                            evt.click_event = e;
+                            evt.node = node;
+                            self.handleContextMenu(evt);
+                        });
+                    };
                     return TreeView.createTreeView(null, this.config.mediaFolderTreeView);
                 },
 
@@ -285,9 +300,12 @@ define(
                     if (this.config.hasOwnProperty("viewmode")) {
                         mediaViewConfig.renderMode = this.config.viewmode;
                     }
+                    mediaViewConfig.id = "medialibrary-dataview";
+                    mediaViewConfig.draggable = true;
                     mediaViewConfig.itemRenderer = jQuery.proxy(this.mediaItemRenderer.render, this.mediaItemRenderer);
                     mediaViewConfig.dataStore = this.mediaDataStore;
                     mediaViewConfig.itemKey = 'id';
+                    mediaViewConfig.customItems = [{id: "ADD_MEDIA_BTN", label: "Add a new Media", type: "custom", position: 0}];
                     return DataViewMng.createDataView(mediaViewConfig);
                 },
 
@@ -410,7 +428,6 @@ define(
                         dataViewCtn = jQuery(this.widget).find(".data-list-ctn").eq(0),
                         paginationCtn = jQuery(this.widget).find('.content-selection-pagination').eq(0),
                         rangeSelectorCtn = jQuery(this.widget).find('.max-per-page-selector').eq(0),
-                        toolbarMenuCtn = jQuery(this.widget).find('.toolbar-menu-ctn').eq(0),
                         searchEnginerCtn = jQuery(this.widget).find(".search-engine-ctn").eq(0);
                     this.rangeSelector.render(rangeSelectorCtn, 'replaceWith');
                     this.treeContainer = jQuery(this.widget).find('.bb5-windowpane-tree').eq(0);
@@ -418,9 +435,7 @@ define(
                     this.mediaListView.render(dataViewCtn);
                     this.mediaFolderTreeView.render(catTreeCtn);
                     this.searchEngine.render(searchEnginerCtn);
-                    /* render toolbar menu */
                     this.loadMediaFolders();
-                    this.menusHelper.getToolbarMenu().render(toolbarMenuCtn);
                     this.bindEvents();
                     jQuery("#" + this.dialog.id).parent().find(".ui-dialog-buttonpane .ui-dialog-buttonset").addClass("pull-right");
                     searchEnginerCtn.on("keyup", this.handleEnterKey.bind(this));
@@ -584,7 +599,6 @@ define(
                     this.mediaDataStore.on("change", jQuery.proxy(this.handleChanges, this));
                     this.mediaFolderTreeView.on("dblclick", jQuery.proxy(this.handleMediaSelection, this));
                     this.mediaFolderTreeView.on("open", jQuery.proxy(this.onNodeTreeOpen, this));
-                    this.mediaFolderTreeView.on("contextmenu", jQuery.proxy(this.handleContextMenu, this));
 
                     this.mediaFolderTreeView.on("click", jQuery.proxy(this.handleNodeClick, this));
 

@@ -125,8 +125,37 @@
     margin-left: 5px;
 }
 
+.drag-media-wrapper {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 20 !important;
+    height: 50px;
+    width: 50px;
 
+    .ico-only {
+        height: 20px;
+        width: auto
+    }
 
+    img {
+        width: 50px;
+        border: 1px solid @brand-primary;
+    }
+}
+
+/* disable selection in jqtree*/
+#bb5-ui .jqtree-tree {
+    .jqtree-title {
+        -moz-user-select: -moz-none;
+        -moz-user-select: none;
+        -o-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+}
 
 
 @import "component-notify.less";

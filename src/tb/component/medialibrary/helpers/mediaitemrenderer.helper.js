@@ -38,7 +38,9 @@ define(
 
         var trans = require('Core').get('trans') || function (value) { return value; },
             MediaItemRenderer = new JS.Class({
+
                 initialize: function () {
+                    this.IMAGE_TYPE = "Media/Image";
                     this.mode = "editmode";
                     this.templates = {
                         'view': require('text!item.templates/media.viewmode.tpl'),
@@ -89,10 +91,14 @@ define(
                     }
                 },
 
+                disableImageDrag: function (itemRender) {
+                    itemRender = jQuery(itemRender);
+                    itemRender.find("a").eq(0).on("dragstart", false);
+                    return itemRender;
+                },
                 bindItemEvents: function (item, itemData) {
                     item = jQuery(item);
-                    item.on('click',
-                        '.show-media-btn', jQuery.proxy(this.handleMediaPreview, this, itemData));
+                    item.on('click', '.show-media-btn', jQuery.proxy(this.handleMediaPreview, this, itemData));
                     item.on('click', '.del-media-btn', jQuery.proxy(this.deleteMedia, this, itemData));
                     item.on('click', '.edit-media-btn', jQuery.proxy(this.showMediaEditForm, this, itemData));
                     item.on('click', '.addandclose-btn', jQuery.proxy(this.addAndClose, this, itemData));
@@ -178,14 +184,31 @@ define(
                         mode = this.mode;
                     }
 
+                    if (item.hasOwnProperty('type') && item.type === 'custom') {
+                        return this.renderCustomItem(item);
+                    }
                     item.smallTitle = item.title;
-                    if (item.title && item.title.length > 48) {
-                        item.smallTitle = item.title.substring(0, 45) + '...';
+                    if (item.title && item.title.length >= 15) {
+                        item.smallTitle = item.title.substring(0, 13) + '...';
                     }
 
                     var template = this.templates[mode],
-                        data =  Renderer.render(template, item); //mode is unused
+                        data = this.disableImageDrag(Renderer.render(template, item)); //mode is unused
                     return this.bindItemEvents(data, item);
+                },
+
+                renderCustomItem: function (item) {
+                    var itemToRender = jQuery("<li></li>"),
+                        self = this,
+                        ctn = jQuery("<div></div>");
+
+                    ctn.addClass("create-item").append('<button><span class="sr-only">' + item.label + '</span></button>');
+                    ctn.find("button").addClass("btn btn-primary").on("click", function () {
+                        self.selector.showMediaEditForm(self.IMAGE_TYPE);
+                    });
+                    ctn.append("<p>" + trans("create_a_new_media") + "</p>");
+                    itemToRender.append(ctn).addClass("item-new");
+                    return itemToRender;
                 },
 
                 addButtons: function () {

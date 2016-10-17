@@ -1,8 +1,7 @@
 <div id="library-pane-wrapper" class="bb5-windowpane-wrapper windowpane-treeview">
     <div class="bb5-windowpane-tree ui-layout-pane ui-layout-west">
         <div class="ui-layout-north">
-            <p><strong data-i18n="toolbar.selector.select_folder">{{ "select_a_mediafolder" | trans }}</strong></p>
-            <div class="container-fluid"><div class="navbar-right toolbar-menu-ctn"></div></div>
+            <p class="ttl" dat-i18n="toolbar.selector.select_folder">{{ "select_a_mediafolder" | trans }}</p>
         </div>
 
 

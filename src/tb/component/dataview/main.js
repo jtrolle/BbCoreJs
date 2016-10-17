@@ -19,7 +19,8 @@
 require.config({
     paths: {
         'dataviewTemplate': 'src/tb/component/dataview/templates',
-        'dataStore': 'src/tb/component/dataview/DataStore'
+        'dataStore': 'src/tb/component/dataview/DataStore',
+        'dataviewDngHelper': 'src/tb/component/dataview/helpers/DataViewItemDrag.helper'
     }
 });
 define(
@@ -31,6 +32,7 @@ define(
         'BackBone',
         'jquery',
         'jsclass',
+        'dataviewDngHelper',
         'text!dataviewTemplate/layout.tpl'
     ],
     function (require, underscore, Translator) {
@@ -53,9 +55,12 @@ define(
                     rendererClass: '',
                     renderMode: 'list',
                     renderAsCollection: false,
+                    draggable: false,
                     enableSelection: true,
                     itemsToShow: null,
+                    allowCustomItem: true,
                     allowMultiSelection: true,
+                    customItems: [],
                     customItemEvents: {},
                     itemRenderer: function () {
                         return '<p>An item renderer must be provided</p>';
@@ -76,6 +81,10 @@ define(
                     this.itemKey = this.config.itemKey;
                     this.renderMode = this.config.renderMode;
                     this.build();
+                    if (this.config.hasOwnProperty('id')) {
+                        this.widget.attr("id", this.config.id);
+                    }
+
                     this.renderers = {};
                     this.buildDefaultRenderers();
                     this.itemRenderer = this.config.itemRenderer;
@@ -85,6 +94,7 @@ define(
                     this.data = {};
                     this.setItemsToShow(this.config.itemsToShow);
                     this.bindEvents();
+                    this.dndMng = require("dataviewDngHelper").init(this);
                 },
 
                 handleCustomItemEvents: function () {
@@ -108,7 +118,20 @@ define(
                     this.itemsToShow = isNaN(limit) ? null : limit;
                 },
 
+                handleCustomItems: function (mainCtn) {
+                    var self = this,
+                        customItemRender,
+                        customItem;
 
+                    jQuery.each(this.config.customItems, function (i) {
+                        customItem = self.config.customItems[i];
+                        customItemRender = self.itemRenderer(self.renderMode, customItem);
+
+                        mainCtn.appendChild(jQuery(customItemRender).get(0));
+                    });
+
+                    return mainCtn;
+                },
 
                 buildDefaultRenderers: function () {
                     var listRenderer = {
@@ -198,15 +221,13 @@ define(
 
                 updateUi: function () {
                     var items = (this.renderAsCollection) ? this.data : this.renderItems();
-
                     if (this.data.length === 0) {
                         this.config.noResultCallback();
-                    } else {
-                        jQuery(this.dataWrapper).html(this.getModeRenderer(this.renderMode).render(items));
                     }
-
+                    /* if data is empty only custom items is shown */
+                    jQuery(this.dataWrapper).html(this.getModeRenderer(this.renderMode).render(items));
                     this.showSelections();
-                    this.trigger('afterRender');
+                    this.trigger('afterRender', this.data);
                 },
 
                 getModeRenderer: function (mode) {
@@ -247,9 +268,14 @@ define(
                 renderItems: function () {
                     var self = this,
                         ctn = document.createDocumentFragment();
+
+                    this.handleCustomItems(ctn);
+
                     jQuery.each(this.data, function (i, item) {
 
-                        var itemRender = jQuery(self.itemRenderer(self.renderMode, item));
+                        var itemRender = jQuery(self.itemRenderer(self.renderMode, item)),
+                            handler;
+
                         if (!itemRender || itemRender.length === 0) {
                             Core.exception('BaseDataViewException', 50002, '[renderItems] InvalidAppConfig [appPath] key is missing');
                         }
@@ -258,6 +284,18 @@ define(
                         jQuery(itemRender).data("item-no", i);
                         jQuery(itemRender).attr("data-uid", item[self.itemKey]);
                         jQuery(itemRender).addClass(self.config.itemCls);
+
+                        if (self.config.draggable) {
+                            handler = jQuery("<span></span>").clone();
+                            handler.addClass("item-drag media-item-dnd-handler");
+                            handler.attr("title", "drag and drop");
+                            handler.attr("draggable", true);
+                            handler.addClass("txt-center");
+                            //handler.append("<i class='fa fa-arrows'></i>");
+                            handler.data("item-data", item);
+                            jQuery(itemRender).prepend(handler);
+                        }
+                        //jQuery(itemRender).attr("draggable", self.config.draggable || false);
 
                         ctn.appendChild(jQuery(itemRender).get(0));
                         /*show next*/

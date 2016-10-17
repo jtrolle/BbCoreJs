@@ -1,4 +1,4 @@
-define(['jquery', 'tb.component/treeview/NodeEditor', 'component!translator', "BackBone", "lib.jqtree", "jsclass"], function (jQuery, NodeEditor, Translator) {
+define(['jquery', 'tb.component/treeview/NodeEditor', 'component!translator', "treeview.helper.droppable", "BackBone", "lib.jqtree", "jsclass"], function (jQuery, NodeEditor, Translator) {
     "use strict";
     /**
      * TreeView's class
@@ -31,6 +31,7 @@ define(['jquery', 'tb.component/treeview/NodeEditor', 'component!translator', "B
             }
             this.nodeEditor = new NodeEditor(this);
             this.treeEl = jQuery(this.el).tree(this.options);
+            require("treeview.helper.droppable").init(this);
         },
         /* hasRoot */
         hasRoot: function () {

@@ -49,6 +49,7 @@
     "cke_default_message": "Click on text to edit",
     "change_password": "Change password",
     "changed_to": "Changed to",
+    "choose": "Choisir",
     "choose_an_action": "Choose an action",
     "clear_all": "Clear all",
     "clear_filters": "Clear filters",
@@ -176,6 +177,7 @@
     "manage_rights": "Manage rights",
     "manage_users_and_groups": "Manage users and groups",
     "media": "Media",
+    "media_already_in_folder": "Media {0} is already is the folder {1}!",
     "media_already_in_medialibrary": "This content is already in the media library",
     "media_height": "H",
     "media_width": "W",
@@ -187,6 +189,7 @@
     "modified_at": "Modified at",
     "modified_date": "Modified date",
     "move_to_page": "Choose location for your page",
+    "media_to_folder": "Media {0} has been moved in the folder {1}!",
 
     "name": "Name",
     "name_is_required": "Name is required",
