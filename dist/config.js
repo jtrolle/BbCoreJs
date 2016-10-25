@@ -98,7 +98,8 @@ require.config({
 
         'cryptojs.core': 'bower_components/cryptojslib/components/core',
         'cryptojs.md5': 'bower_components/cryptojslib/components/md5',
-        'multiselect-two-sides': 'bower_components/multiselect-two-sides/js/multiselect'
+        'multiselect-two-sides': 'bower_components/multiselect-two-sides/js/multiselect',
+        'cropper': 'bower_components/cropper/dist/cropper'
     },
     'map': {
         "*": {

@@ -50,6 +50,7 @@
     "changed_to": "Changer pour",
     "choose": "Choisir",
     "choose_an_action": "Choisir une action",
+    "choose_cropping_proportions": "Choisissez les dimensions de l'image",
     "cke_default_message": "Cliquer sur du texte pour le modifier",
     "clear_all": "Rafraîchir",
     "clear_filters": "Rafraîchir les filtres",
@@ -84,6 +85,8 @@
     "created_before": "Créée avant",
     "created_after": "Créée après",
     "creation_date": "Date de création",
+    "crop_image": "Recadrer l'image",
+    "crop_image_confirm_text": "Vous êtes sur le point de remplacer l’image originale par l’image recadrée. La nouvelle image remplacera l’image originale partout où elle a été utilisée sur le site.",
     "cut": "Couper",
     "current_directory": "Répertoire courant",
     "content_preview": "Prévisualiser le contenu",
@@ -143,9 +146,11 @@
     "has_been_deleted": "a été supprimé(e))",
 
     "if_you_wish_to_keep_these_subpages_please_move_them_to_another_location": "Pour garder ces pages filles, veuillez les déplacer ailleurs dans l'arborescence",
+    "image_was_cropped": "L'image a été recadrée",
     "import": "Import",
     "inactive": "Inactif",
     "internal_link": "Lien interne",
+    "invalid_element": "Element invalide",
 
     "keyword_already_exists" : "Ce mot-clé existe déjà",
     "keywords_editor": "Mots clés",
@@ -163,6 +168,7 @@
     "loading_pages": "Chargement des pages",
     "loading_sites": "Chargement des sites...",
     "loading_users": "Chargements des utilisateurs...",
+    "lock_dimensions": "Bloquer les dimensions",
     "login": "Login",
     "log_in": "Connexion",
     "log_out": "Se déconnecter",
@@ -191,6 +197,8 @@
 
     "name": "Nom",
     "name_is_required": "Nom obligatoire",
+    "new_cropimage_created": "L'image a été recadrée et enregistrée dans la médiathèque",
+
     "new_page": "Nouvelle page",
     "new_page_final_message": "La page courante n'accepte pas d'enfants, cette page va être créée au même niveau",
     "next": "Suivant",
@@ -200,6 +208,7 @@
     "no_content_cancel": "Aucune modification de contenu à annuler",
     "no_content_validate": "Aucun contenu à mettre en ligne",
     "no_description_provided": "Aucune description fournie",
+    "no_image_to_crop": "Aucune image fournie",
     "no_page_modification_cancel": "Aucune mofification de page à annuler",
     "no_page_modification_validate": "Aucune mofification de page à valider",
     "no_one": "Aucune",
@@ -269,7 +278,9 @@
     "rollback_content_title": "Changement de version",
 
     "save": "Enregistrer",
+    "save_and_replace": "Remplacer",
     "save_as_draft": "Brouillon",
+    "save_as_new": "Enregistrer en tant que nouvelle image",
     "save_in_media_library" : "Enregistrer cette image dans la médiathèque",
     "save_draft": "Sauvegarder le brouillon",
     "save_status": "Sauvegarder le statut",

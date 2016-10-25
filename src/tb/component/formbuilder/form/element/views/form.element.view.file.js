@@ -22,14 +22,16 @@ define(
     [
         'Core',
         'Core/Renderer',
+        'URIjs/URI',
         'BackBone',
         'jquery',
         'component!translator',
+        'component!imagecropper',
         'tb.component/mask/main',
         'component!session',
         'component!notify'
     ],
-    function (Core, Renderer, Backbone, jQuery, Translator) {
+    function (Core, Renderer, URI, Backbone, jQuery, Translator, Cropper) {
         'use strict';
 
         var FileView = Backbone.View.extend({
@@ -45,13 +47,48 @@ define(
                 thumbnailWidth: 200
             },
 
-            initialize: function (template, formTag, element) {
+            initialize: function (template, formTag, element, mainForm) {
                 this.form = formTag;
                 this.template = template;
+                this.mainForm = mainForm;
                 this.element = element;
+                this.crop_button_class = 'btn-crop';
                 this.maskManager = require('tb.component/mask/main').createMask({'message': Translator.translate('uploading')});
-
                 this.uploadEvent();
+                this.cropEvent();
+            },
+
+            cropEvent: function () {
+                var self = this,
+                    imageUid = '',
+                    imagePath = '',
+                    originalName = '';
+
+                if (this.element.config && this.element.config.element && this.element.config.element.uid) {
+                    imageUid = this.element.config.element.uid;
+                }
+
+                Core.Mediator.subscribe('on:form:render', function (form) {
+                    if (Core.get("DISABLE_CROP")) {
+                        form.find('.btn-crop').hide();
+                    }
+                    form.find('.btn-crop').unbind('click').on('click', function () {
+                        if (form.find('.dz-preview').length === 0) {
+                            require('component!notify').error(Translator.translate('no_image_to_crop'));
+                        } else {
+                            if (form.find('input[name=' + self.element.getKey() + ']').val() === 'updated') {
+                                imagePath = form.find('span.' + self.element.getKey() + '_path').text();
+                                originalName = form.find('span.' + self.element.getKey() + '_originalname').text();
+                            }
+                            self.cropper = Cropper.create({parentPopin: self.mainForm.config.popinInstance});
+                            self.cropper.show(imageUid, imagePath, originalName, self.element, self.mainForm.config.content);
+                        }
+                    });
+                });
+            },
+
+            disableCrop: function () {
+                jQuery("#" + this.form).find("." + this.crop_button_class).remove();
             },
 
             uploadEvent: function () {
@@ -75,6 +112,7 @@ define(
                         inputOriginalName = form.find('span.' + self.element.getKey() + '_originalname');
 
                     self.buildValue(dropzone, self.element.value, input);
+
 
                     dropzone.on('sending', function (file, xhr) {
 
@@ -136,6 +174,7 @@ define(
                             inputSrc.text('');
                             inputOriginalName.text('');
                             input.val('updated');
+                            self.disableCrop();
                         }
                     });
 
@@ -158,11 +197,18 @@ define(
             buildValue: function (dropzone, value, element) {
                 if (typeof value === 'object') {
 
-                    var file = {'name': value.name};
+                    var file = {'name': value.name},
+                        uri = new URI(Core.get('api_base_url')),
+                        baseUrl = uri.protocol() + '://' + uri.host() + '/';
+
+                    if (value.thumbnail.indexOf(value.path) === -1) {
+                        value.thumbnail = baseUrl + 'images/' + value.path;
+                    }
 
                     dropzone.options.addedfile.call(dropzone, file);
-                    dropzone.createThumbnailFromUrl(file, value.thumbnail + '?' + new Date().getTime(), function () {
-                        if (event.type === 'error') {
+                    dropzone.createThumbnailFromUrl(file, value.thumbnail + '?' + new Date().getTime(), function (event) {
+
+                        if (event && event.type === 'error') {
 
                             var fileBackup = {'name': value.name};
 
