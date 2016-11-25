@@ -6725,7 +6725,7 @@ Rich editor
   margin: 0 auto!important;
 }
 #bb5-ui .input-xs {
-  font-size: 11px;
+  font-size: 11px !important;
   padding: 2px 6px 1px 6px;
   height: 20px;
 }
@@ -6927,6 +6927,7 @@ Rich editor
   border-color: transparent;
   color: #363636;
   font-size: 13px;
+  margin: 0;
 }
 #bb5-ui #bb5-maintabs > li > .btn:hover,
 #bb5-ui #bb5-maintabs > li > .btn:focus {
@@ -7755,7 +7756,7 @@ fieldset[disabled] #bb5-ui .btn-online.active {
 }
 #bb5-ui .control input:checked ~ .control-indicator {
   color: #fff;
-  background-color: #bebebe;
+  background-color: #bebebe !important;
 }
 #bb5-ui .control:hover .control-indicator {
   background-color: #d0d0d0;
