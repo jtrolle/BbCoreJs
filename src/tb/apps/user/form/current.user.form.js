@@ -22,6 +22,7 @@ define(['component!formbuilder', 'component!translator'], function (formbuilder,
     var configure = function (view) {
 
         return {
+            form_name: 'current_user',
             elements: {
                 firstname: {
                     type: 'text',

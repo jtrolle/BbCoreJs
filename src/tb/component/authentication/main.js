@@ -101,8 +101,17 @@ define('tb.component/authentication/main',
              * @param {Object} response
              */
             onRequestDone: function (response) {
-                session.key = response.getHeader(session.HEADER_API_KEY);
-                session.signature = response.getHeader(session.HEADER_API_SIGNATURE);
+                this.authenticateBySign(response.getHeader(session.HEADER_API_KEY), response.getHeader(session.HEADER_API_SIGNATURE));
+            },
+
+            /**
+             * Update Core's key and Core's signature into the Session storage
+             * @param  string key
+             * @param  string signature
+             */
+            authenticateBySign: function (key, signature) {
+                session.key = key;
+                session.signature = signature;
 
                 if (session.isValidAuthentication()) {
                     session.persist();
@@ -156,6 +165,7 @@ define('tb.component/authentication/main',
                             submitLabel: 'Sign in',
                             error: error
                         },
+                        form_name: 'bb-auth',
                         onSubmit: jQuery.proxy(this.onSubmitForm, this),
                         onValidate: jQuery.proxy(this.onValidateForm, this)
                     };
