@@ -25,13 +25,13 @@ define('tb.component/session/session', ['Core', 'Core/Utils', 'jsclass'], functi
          * This constant define a Key of API KEY
          * @type {String}
          */
-        HEADER_API_KEY: 'x-api-key',
+        HEADER_API_KEY: 'X-API-KEY',
 
         /**
          * This constant define a Key of API SIGNATURE
          * @type {String}
          */
-        HEADER_API_SIGNATURE: 'x-api-signature',
+        HEADER_API_SIGNATURE: 'X-API-SIGNATURE',
 
         STORAGE_KEY: 'bb-session-auth',
 
