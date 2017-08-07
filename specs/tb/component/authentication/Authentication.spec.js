@@ -19,15 +19,15 @@ define(['Core', 'component!session', 'component!authentication', 'Core/Request',
 
         it('Testing onBeforeSend event', function () {
             session.onBeforeSend(request);
-            expect(request.getHeader('x-api-key')).toBe(null);
-            expect(request.getHeader('x-api-signature')).toBe(null);
+            expect(request.getHeader('X-API-KEY')).toBe(null);
+            expect(request.getHeader('X-API-SIGNATURE')).toBe(null);
 
             localStorage.setItem('bb-session-auth', JSON.stringify({key: apiKey, signature: apiSignature}));
             session.load();
 
             session.onBeforeSend(request);
-            expect(request.getHeader('x-api-key')).toEqual(apiKey);
-            expect(request.getHeader('x-api-signature')).toEqual(apiSignature);
+            expect(request.getHeader('X-API-KEY')).toEqual(apiKey);
+            expect(request.getHeader('X-API-SIGNATURE')).toEqual(apiSignature);
         });
 
         it('Testing authentication function', function () {
@@ -67,8 +67,8 @@ define(['Core', 'component!session', 'component!authentication', 'Core/Request',
         it('Testing onRequestDone event', function () {
             var response = new Response();
 
-            response.addHeader('x-api-key', apiKey);
-            response.addHeader('x-api-signature', apiSignature);
+            response.addHeader('X-API-KEY', apiKey);
+            response.addHeader('X-API-SIGNATURE', apiSignature);
 
             localStorage.clear();
 
